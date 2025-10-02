@@ -36,6 +36,7 @@ public:
 
 private:
     bool    m_isDead = false;
+	float	m_attackCooldown = 0.0f;
     eDirection m_direction = LEFT;
     Game*   m_pGame;
     std::unique_ptr<Weapon> m_pWeapon;

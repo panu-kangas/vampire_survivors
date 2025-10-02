@@ -21,9 +21,10 @@ void GameInput::update(float deltaTime)
         m_pPlayer->move(m_inputData, deltaTime);
     }
 
-    if (m_inputData.m_space)
+    if (m_inputData.m_space && !m_inputData.m_spaceHold)
     {
         m_pPlayer->attack();
+		m_inputData.m_spaceHold = true;
     }
 }
 
@@ -49,6 +50,10 @@ void GameInput::onKeyPressed(sf::Keyboard::Key key)
     {
         m_inputData.m_space = true;
     }
+	else if (key == sf::Keyboard::Enter)
+    {
+        m_inputData.m_enter = true;
+    }
 }
 
 void GameInput::onKeyReleased(sf::Keyboard::Key key)
@@ -72,5 +77,10 @@ void GameInput::onKeyReleased(sf::Keyboard::Key key)
     else if (key == sf::Keyboard::Space)
     {
         m_inputData.m_space = false;
+		m_inputData.m_spaceHold = false;
+    }
+	else if (key == sf::Keyboard::Enter)
+    {
+        m_inputData.m_enter = false;
     }
 }

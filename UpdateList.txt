@@ -1,0 +1,11 @@
+BUG FIXES
+
+- Weapon reset after new game starts
+- Weapon can't be used constantly by holding space
+- Add border detection to player (so it can't wonder off screen)
+
+
+IMPROVEMENTS
+
+- Attack cooldown for player
+- New utility function for drawing text

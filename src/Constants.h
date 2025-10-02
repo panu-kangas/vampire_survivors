@@ -1,11 +1,12 @@
 #pragma once
 
-const int ScreenWidth = 1600;
-const int ScreenHeight = 1200;
+const int ScreenWidth = 1400;
+const int ScreenHeight = 1000;
 
 const float PlayerHeight = 55.0f;
 const float PlayerWidth = 55.0f;
 const float PlayerSpeed = 155.0f;
+const float PlayerAttackCooldown = 0.5f;
 
 const float VampireHeight = 32.0f;
 const float VampireWidth = 32.0f;

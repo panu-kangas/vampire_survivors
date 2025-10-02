@@ -11,6 +11,9 @@
 #include "Rectangle.h"
 #include "Vampire.h"
 
+void drawText(sf::RenderTarget &target, sf::Font font, std::string text);
+
+
 Game::Game() :
     m_state(State::WAITING),
     m_pClock(std::make_unique<sf::Clock>()),
@@ -87,10 +90,19 @@ void Game::update(float deltaTime)
 
             if (m_pPlayer->isDead())
             {
-                m_state = State::WAITING;
+                m_state = State::GAME_OVER;
                 resetLevel();
             }
         }
+
+		case State::GAME_OVER:
+		{
+			if (m_pGameInput->isEnterPressed())
+			{
+				m_state = State::WAITING;
+			}
+		}
+
         break;
     }
 
@@ -112,14 +124,12 @@ void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
     //  Draw texts.
     if (m_state == State::WAITING)
     {
-        sf::Text startText;
-        startText.setFont(m_font);
-        startText.setString("Game Start!");
-        startText.setFillColor(sf::Color::White);
-        startText.setPosition(80.0f, 80.0f);
-        startText.setStyle(sf::Text::Bold);
-        target.draw(startText);
+        drawText(target, m_font, "Game Start!!");
     }
+	else if (m_state == State::GAME_OVER)
+	{
+        drawText(target, m_font, "You Died!! Press enter to restart");
+	}
     else
     {
         sf::Text timerText;

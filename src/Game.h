@@ -21,6 +21,7 @@ public:
     {
         WAITING,
         ACTIVE,
+		GAME_OVER
     };
     
     Game();

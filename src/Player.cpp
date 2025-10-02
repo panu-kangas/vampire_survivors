@@ -20,6 +20,7 @@ bool Player::initialise()
     setIsDead(false);
     setPosition(ScreenWidth / 2, ScreenHeight / 2);
     m_sprite.setPosition(getPosition());
+	m_pWeapon->setActive(false);
     return true;
 }
 
@@ -37,7 +38,8 @@ void Player::move(InputData inputData, float deltaTime)
     ySpeed *= deltaTime;
     
     sf::Transformable::move(sf::Vector2f(xSpeed, ySpeed));
-    setPosition(std::clamp(getPosition().x, 0.0f, (float)ScreenWidth), getPosition().y);
+    setPosition(std::clamp(getPosition().x, 0.0f, (float)ScreenWidth - PlayerWidth), 
+	std::clamp(getPosition().y, 0.0f, (float)ScreenHeight - PlayerHeight));
 
     if (inputData.m_movingLeft && !inputData.m_movingRight)
         m_direction = LEFT;
@@ -51,7 +53,11 @@ void Player::move(InputData inputData, float deltaTime)
 
 void Player::attack()
 {
-    m_pWeapon->setActive(true);
+	if (m_attackCooldown <= 0.0f)
+	{
+    	m_pWeapon->setActive(true);
+		m_attackCooldown = PlayerAttackCooldown;
+	}
 }
 
 void Player::update(float deltaTime)
@@ -63,6 +69,8 @@ void Player::update(float deltaTime)
         getCenter().x - (m_direction == LEFT ? weaponSize.x : 0.0f),
         getCenter().y - weaponSize.y / 2.0f));
     m_pWeapon->update(deltaTime);
+	if (m_attackCooldown > 0)
+		m_attackCooldown -= deltaTime;
 }
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
