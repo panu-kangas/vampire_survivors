@@ -8,14 +8,15 @@ class StartScreen : public GameState {
 	StartScreen() = delete;
     StartScreen(Game* gamePtr);
 
-    void handleInput(sf::RenderTarget& target) override;
-
+    void handleInput(InputData inputData) override;
     void update(float deltaTime) override;
-
     void render(sf::RenderTarget& target) override;
+
+	bool isReady() { return m_isReady; };
 
 	private:
 
     sf::Font* m_font;
     sf::Text m_welcomeText;
+	bool m_isReady = false;
 };

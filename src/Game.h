@@ -61,6 +61,7 @@ private:
     float m_vampireCooldown = 0.0f;
     float m_nextVampireCooldown = 2.0f;
     int m_spawnCount = 0;
+	int m_score = 0;
     
     sf::Font m_font;
     sf::Texture m_vampTexture;

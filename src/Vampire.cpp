@@ -17,17 +17,17 @@ Vampire::Vampire(Game* game, sf::Vector2f position) :
     m_sprite.setScale(2.0f, 2.0f);
 }
 
-void Vampire::update(float deltaTime)
+bool Vampire::update(float deltaTime)
 {
     if (m_isKilled)
-        return;
-    
+        return false;
+	
     Player* pPlayer = m_pGame->getPlayer();
 
     if (collidesWith(pPlayer->getWeapon()))
     {
         setIsKilled(true);
-        return;
+        return true;
     }
 
     if (collidesWith(pPlayer))
@@ -38,4 +38,6 @@ void Vampire::update(float deltaTime)
     direction *= VampireSpeed * deltaTime;
     sf::Transformable::move(direction);
     m_sprite.setPosition(getPosition());
+
+	return false;
 }

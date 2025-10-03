@@ -28,7 +28,7 @@ public:
     void onKeyPressed(sf::Keyboard::Key key);
     void onKeyReleased(sf::Keyboard::Key key);
 	bool isEnterPressed() { return m_inputData.m_enter; };
-    
+	InputData& getInputData() { return m_inputData; };
     
 private:
     InputData m_inputData;

@@ -10,7 +10,7 @@ public:
     Vampire(Game* game, sf::Vector2f position);
     virtual ~Vampire() {}
     
-    void update(float deltaTime);
+    bool update(float deltaTime);
 
     void setIsKilled(bool isKilled) { m_isKilled = isKilled; }
     bool isKilled() { return m_isKilled; }

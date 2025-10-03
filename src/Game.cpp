@@ -61,6 +61,7 @@ void Game::resetLevel()
 {
     m_pVampires.clear();
 
+	m_score = 0;
     m_pPlayer->initialise();
     m_pClock->restart();
 }
@@ -71,7 +72,11 @@ void Game::update(float deltaTime)
     {
 		case State::START_SCREEN:
 		{
+			m_pStartScreen->handleInput(m_pGameInput->getInputData());
 			m_pStartScreen->update(deltaTime);
+			if (m_pStartScreen->isReady())
+				m_state = State::WAITING;
+
 			break ;
 		}
         case State::WAITING:
@@ -92,7 +97,9 @@ void Game::update(float deltaTime)
             vampireSpawner(deltaTime);
             for (auto& temp : m_pVampires)
             {
-                temp->update(deltaTime);
+                bool vampireDied = temp->update(deltaTime);
+				if (vampireDied)
+					m_score++;
             }
 
             if (m_pPlayer->isDead())
@@ -150,6 +157,14 @@ void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
         timerText.setString(std::to_string((int)m_pClock->getElapsedTime().asSeconds()));
         timerText.setPosition(sf::Vector2f((ScreenWidth - timerText.getLocalBounds().getSize().x) * 0.5, 20));
         target.draw(timerText);
+
+		sf::Text scoreText;
+        scoreText.setFont(m_font);
+        scoreText.setFillColor(sf::Color::White);
+        scoreText.setStyle(sf::Text::Bold);
+        scoreText.setString("Your score: " + std::to_string(m_score));
+        scoreText.setPosition(sf::Vector2f((ScreenWidth - scoreText.getLocalBounds().width) - 30, 20));
+        target.draw(scoreText);
     }
 
 	if (m_state != State::START_SCREEN)

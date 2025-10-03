@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "Game.h"
+#include "InputHandler.h"
 
 class GameState {
 	public:
@@ -12,7 +13,7 @@ class GameState {
     virtual ~GameState() = default;
 
     virtual void onEnter() {}
-    virtual void handleInput(sf::RenderTarget& target) = 0;
+    virtual void handleInput(InputData inputData) = 0;
     virtual void update(float deltaTime) = 0;
     virtual void render(sf::RenderTarget& target) = 0;
     virtual void onExit() {}

@@ -1,5 +1,5 @@
 Working hours spent:
-2h
+4h
 
 
 BUG FIXES
@@ -15,4 +15,9 @@ IMPROVEMENTS
 
 - Attack cooldown for player
 - New utility function for drawing text
+
+
+ADDITIONS
+
+- Start Screen added
 - New State system for the game: Base class GameState and inherited classes for other states

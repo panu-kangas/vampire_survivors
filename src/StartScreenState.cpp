@@ -2,9 +2,8 @@
 #include "Constants.h"
 #include "StartScreenState.hpp"
 #include "ResourceManager.h"
-
-void drawText(sf::RenderTarget &target, sf::Font font, std::string text);
-
+#include "InputHandler.h"
+#include "utilities.hpp"
 
 StartScreen::StartScreen(Game* gamePtr) : GameState(gamePtr)
 {
@@ -12,9 +11,10 @@ StartScreen::StartScreen(Game* gamePtr) : GameState(gamePtr)
 }
 
 
-void StartScreen::handleInput(sf::RenderTarget& target)
+void StartScreen::handleInput(InputData inputData)
 {
-	
+	if (inputData.m_enter)
+		m_isReady = true;
 
 }
 
@@ -25,5 +25,6 @@ void StartScreen::update(float deltaTime)
 
 void StartScreen::render(sf::RenderTarget& target)
 {
-	drawText(target, *m_font, "Welcome, Player!");
+	drawHeaderText(target, *m_font, "Welcome, Player!");
+	drawCenteredText(target, *m_font, "Press Enter to start the game.");
 }
