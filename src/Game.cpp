@@ -10,18 +10,20 @@
 #include "Player.h"
 #include "Rectangle.h"
 #include "Vampire.h"
+#include "StartScreenState.hpp"
 
 void drawText(sf::RenderTarget &target, sf::Font font, std::string text);
 
 
 Game::Game() :
-    m_state(State::WAITING),
+    m_state(State::START_SCREEN),
     m_pClock(std::make_unique<sf::Clock>()),
     m_pPlayer(std::make_unique<Player>(this)),
     m_vampireCooldown(2.0f),
     m_nextVampireCooldown(2.0f)
 {
     m_pGameInput = std::make_unique<GameInput>(this, m_pPlayer.get());
+	m_pStartScreen = std::make_unique<StartScreen>(this);
 }
 
 Game::~Game()
@@ -67,6 +69,11 @@ void Game::update(float deltaTime)
 {
     switch (m_state)
     {
+		case State::START_SCREEN:
+		{
+			m_pStartScreen->update(deltaTime);
+			break ;
+		}
         case State::WAITING:
         {
             if (m_pClock->getElapsedTime().asSeconds() >= 3.f)
@@ -122,7 +129,11 @@ void Game::update(float deltaTime)
 void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     //  Draw texts.
-    if (m_state == State::WAITING)
+	if (m_state == State::START_SCREEN)
+	{
+		m_pStartScreen->render(target);
+	}
+    else if (m_state == State::WAITING)
     {
         drawText(target, m_font, "Game Start!!");
     }
@@ -141,14 +152,18 @@ void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
         target.draw(timerText);
     }
 
-    // Draw player.
-    m_pPlayer->draw(target, states);
+	if (m_state != State::START_SCREEN)
+	{
+		// Draw player.
+		m_pPlayer->draw(target, states);
 
-    //  Draw world.
-    for (auto& temp : m_pVampires)
-    {
-        temp->draw(target, states);
-    }
+		//  Draw world.
+		for (auto& temp : m_pVampires)
+		{
+			temp->draw(target, states);
+		}
+	}
+   
 }
 
 

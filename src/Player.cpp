@@ -16,7 +16,10 @@ Player::Player(Game* pGame) :
 bool Player::initialise()
 {
     m_sprite.setTexture(*m_pGame->getPlayerTexture());
+    m_sprite.setOrigin(sf::Vector2f(0.0f, 0.0f));
     m_sprite.setScale(3.5f, 3.5f);
+	m_direction = LEFT;
+	m_facingDirection = LEFT;
     setIsDead(false);
     setPosition(ScreenWidth / 2, ScreenHeight / 2);
     m_sprite.setPosition(getPosition());
@@ -65,8 +68,23 @@ void Player::update(float deltaTime)
     sf::Vector2f weaponSize = m_pWeapon->getSize();
 
     m_sprite.setPosition(getPosition());
+
+	if (m_direction != m_facingDirection && (m_direction == LEFT || m_direction == RIGHT))
+	{
+		m_facingDirection = m_direction;
+		if (m_facingDirection == LEFT)
+		{
+    		m_sprite.setOrigin(sf::Vector2f(0.0f, 0.0f));
+    		m_sprite.setScale(3.5f, 3.5f);
+		}
+		else
+		{
+			m_sprite.setOrigin(m_sprite.getLocalBounds().width, 0);
+			m_sprite.setScale(-3.5f, 3.5f);
+		}
+	}
     m_pWeapon->setPosition(sf::Vector2f(
-        getCenter().x - (m_direction == LEFT ? weaponSize.x : 0.0f),
+        getCenter().x - (m_facingDirection == LEFT ? weaponSize.x : 0.0f),
         getCenter().y - weaponSize.y / 2.0f));
     m_pWeapon->update(deltaTime);
 	if (m_attackCooldown > 0)

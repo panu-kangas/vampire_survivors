@@ -38,6 +38,7 @@ private:
     bool    m_isDead = false;
 	float	m_attackCooldown = 0.0f;
     eDirection m_direction = LEFT;
+	eDirection m_facingDirection = LEFT;
     Game*   m_pGame;
     std::unique_ptr<Weapon> m_pWeapon;
 };

@@ -10,6 +10,7 @@ class Player;
 class Game;
 class GameInput;
 class Vampire;
+class StartScreen;
 
 namespace sf { class Clock; }
 
@@ -19,6 +20,7 @@ public:
     
     enum class State
     {
+		START_SCREEN,
         WAITING,
         ACTIVE,
 		GAME_OVER
@@ -38,8 +40,10 @@ public:
     void onKeyReleased(sf::Keyboard::Key key);
 
     Player* getPlayer() const;
+	sf::Font* getFont() { return &m_font; }
     sf::Texture* getPlayerTexture() { return &m_playerTexture; }
     sf::Texture* getVampireTexture() { return &m_vampTexture; }
+	float 		getNextVampireCooldown() { return m_nextVampireCooldown; }
 
     void vampireSpawner(float deltaTime);
 
@@ -51,6 +55,8 @@ private:
     State m_state;
     std::unique_ptr<sf::Clock> m_pClock;
     std::unique_ptr<GameInput> m_pGameInput;
+	
+	std::unique_ptr<StartScreen> m_pStartScreen;
 
     float m_vampireCooldown = 0.0f;
     float m_nextVampireCooldown = 2.0f;
