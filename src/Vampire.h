@@ -11,6 +11,7 @@ public:
     virtual ~Vampire() {}
     
     bool update(float deltaTime);
+	bool startScreenUpdate(float deltaTime);
 
     void setIsKilled(bool isKilled) { m_isKilled = isKilled; }
     bool isKilled() { return m_isKilled; }
@@ -18,4 +19,5 @@ public:
 private:
     Game* m_pGame;
     bool m_isKilled = false;
+	sf::Vector2f m_initPosition;
 };

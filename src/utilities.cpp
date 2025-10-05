@@ -1,4 +1,6 @@
 #include "utilities.hpp"
+#include "Rectangle.h"
+#include "Constants.h"
 
 void drawText(sf::RenderTarget &target, sf::Font font, std::string text)
 {
@@ -17,7 +19,7 @@ void drawHeaderText(sf::RenderTarget &target, sf::Font font, std::string text)
 	textToDraw.setFont(font);
 	textToDraw.setString(text);
 	textToDraw.setCharacterSize(100);
-	textToDraw.setFillColor(sf::Color::Red);
+	textToDraw.setFillColor(sf::Color(242, 134, 39));
 	textToDraw.setStyle(sf::Text::Bold);
 	float xPos = ScreenWidth / 2 - textToDraw.getLocalBounds().width / 2;
 	textToDraw.setPosition(xPos, 50.0f);
@@ -35,4 +37,17 @@ void drawCenteredText(sf::RenderTarget &target, sf::Font font, std::string text)
 	float xPos = ScreenWidth / 2 - textToDraw.getLocalBounds().width / 2;
 	textToDraw.setPosition(xPos, ScreenHeight / 2);
 	target.draw(textToDraw);
+}
+
+bool isOutOfScreen(Rectangle& obj)
+{
+	float x = obj.getPosition().x;
+	float y = obj.getPosition().y;
+	float width = obj.getSize().x;
+	float height = obj.getSize().y;
+
+	if (x < 0 - width || x > ScreenWidth || y < 0 - height || y > ScreenHeight)
+		return true;
+
+	return false;
 }

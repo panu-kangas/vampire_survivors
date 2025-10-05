@@ -10,17 +10,15 @@
 #include "Player.h"
 #include "Rectangle.h"
 #include "Vampire.h"
+#include "VampireHandler.hpp"
 #include "StartScreenState.hpp"
-
-void drawText(sf::RenderTarget &target, sf::Font font, std::string text);
+#include "utilities.hpp"
 
 
 Game::Game() :
     m_state(State::START_SCREEN),
     m_pClock(std::make_unique<sf::Clock>()),
-    m_pPlayer(std::make_unique<Player>(this)),
-    m_vampireCooldown(2.0f),
-    m_nextVampireCooldown(2.0f)
+    m_pPlayer(std::make_unique<Player>(this))
 {
     m_pGameInput = std::make_unique<GameInput>(this, m_pPlayer.get());
 	m_pStartScreen = std::make_unique<StartScreen>(this);
@@ -52,6 +50,17 @@ bool Game::initialise()
         std::cerr << "Unable to load texture" << std::endl;
         return false;
     }
+	if (!m_floorTexture.loadFromFile(ResourceManager::getFilePath("floor.png")))
+    {
+        std::cerr << "Unable to load texture" << std::endl;
+        return false;
+    }
+
+	m_floorSprite.setTexture(m_floorTexture);
+    m_floorSprite.setOrigin(sf::Vector2f(0.0f, 0.0f));
+    m_floorSprite.setScale(2.0f, 2.0f);
+
+	m_vampireHandler = std::make_unique<VampireHandler>(this, m_vampTexture);
 
     resetLevel();
     return true;
@@ -59,7 +68,7 @@ bool Game::initialise()
 
 void Game::resetLevel()
 {
-    m_pVampires.clear();
+    m_vampireHandler->initVampires();
 
 	m_score = 0;
     m_pPlayer->initialise();
@@ -94,13 +103,8 @@ void Game::update(float deltaTime)
             m_pGameInput->update(deltaTime);
             m_pPlayer->update(deltaTime);
 
-            vampireSpawner(deltaTime);
-            for (auto& temp : m_pVampires)
-            {
-                bool vampireDied = temp->update(deltaTime);
-				if (vampireDied)
-					m_score++;
-            }
+            m_vampireHandler->vampireSpawner(deltaTime);
+            m_vampireHandler->update(deltaTime, m_state);
 
             if (m_pPlayer->isDead())
             {
@@ -120,25 +124,32 @@ void Game::update(float deltaTime)
         break;
     }
 
-    int i = 0;
-    while (i < m_pVampires.size())
-    {
-        if (m_pVampires[i]->isKilled())
-        {
-            std::swap(m_pVampires[i], m_pVampires.back());
-            m_pVampires.pop_back();
-            continue;
-        }
-        i++;
-    }
+}
+
+void Game::drawFloor(sf::RenderTarget &target) const
+{
+	sf::Sprite tempSprite = m_floorSprite;
+
+	// -10 because the sprite had rounded corners --> empty spot in top left corner
+	for (int x = -10; x < ScreenWidth; x += tempSprite.getLocalBounds().width)
+	{
+		for (int y = 0; y < ScreenHeight; y += tempSprite.getLocalBounds().height)
+		{
+			tempSprite.setPosition(x, y);
+			target.draw(tempSprite);
+		}
+	}
 }
 
 void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
+	if (m_state != State::START_SCREEN)
+		drawFloor(target);
+
     //  Draw texts.
 	if (m_state == State::START_SCREEN)
 	{
-		m_pStartScreen->render(target);
+		m_pStartScreen->render(target, states);
 	}
     else if (m_state == State::WAITING)
     {
@@ -167,16 +178,13 @@ void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
         target.draw(scoreText);
     }
 
+	
 	if (m_state != State::START_SCREEN)
 	{
 		// Draw player.
 		m_pPlayer->draw(target, states);
-
-		//  Draw world.
-		for (auto& temp : m_pVampires)
-		{
-			temp->draw(target, states);
-		}
+		
+		m_vampireHandler->drawVampires(target, states);
 	}
    
 }
@@ -195,37 +203,4 @@ void Game::onKeyReleased(sf::Keyboard::Key key)
 Player* Game::getPlayer() const 
 {
     return m_pPlayer.get();
-}
-
-void Game::vampireSpawner(float deltaTime)
-{
-    if (m_vampireCooldown > 0.0f)
-    {
-        m_vampireCooldown -= deltaTime;
-        return;
-    }
-
-    float randomXPos = rand() % ScreenWidth;
-    float randomYPos = rand() % ScreenHeight;
-
-    float distToRight = (float) ScreenWidth - randomXPos;
-    float distToBottom = (float) ScreenHeight - randomYPos;
-
-    float xMinDist = randomXPos < distToRight ? -randomXPos : distToRight;
-    float yMinDist = randomYPos < distToBottom ? -randomYPos : distToBottom;
-
-    if (std::abs(xMinDist) < std::abs(yMinDist))
-        randomXPos += xMinDist;
-    else
-        randomYPos += yMinDist;
-
-    sf::Vector2f spawnPosition = sf::Vector2f(randomXPos, randomYPos);
-    m_pVampires.push_back(std::make_unique<Vampire>(this, spawnPosition));
-
-    m_spawnCount++;
-    if (m_spawnCount % 5 == 0)
-    {
-        m_nextVampireCooldown -= 0.1f;
-    }
-    m_vampireCooldown = m_nextVampireCooldown;
 }

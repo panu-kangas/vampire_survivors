@@ -1,12 +1,12 @@
 Working hours spent:
-4h
+7h
 
 
 BUG FIXES
 
 - Weapon reset after new game starts
 - Weapon can't be used constantly by holding space
-- Add border detection to player (so it can't wonder off screen)
+- Add border detection to player (so it can't wander off screen)
 - Weapon direction fixed: only updates when player changes left/right orientation
 - Player orientation is updated based on moving direction
 
@@ -15,9 +15,11 @@ IMPROVEMENTS
 
 - Attack cooldown for player
 - New utility function for drawing text
+- VampireHandler class added --> Takes care of all Vampire related like spawning, update and destruction.
 
 
 ADDITIONS
 
 - Start Screen added
 - New State system for the game: Base class GameState and inherited classes for other states
+- Score system added
