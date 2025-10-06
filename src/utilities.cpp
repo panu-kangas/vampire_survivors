@@ -39,6 +39,19 @@ void drawCenteredText(sf::RenderTarget &target, sf::Font font, std::string text)
 	target.draw(textToDraw);
 }
 
+void drawBottomText(sf::RenderTarget &target, sf::Font font, std::string text)
+{
+	sf::Text textToDraw;
+	textToDraw.setFont(font);
+	textToDraw.setString(text);
+	textToDraw.setCharacterSize(50);
+	textToDraw.setFillColor(sf::Color::White);
+	textToDraw.setStyle(sf::Text::Bold);
+	float xPos = ScreenWidth / 2 - textToDraw.getLocalBounds().width / 2;
+	textToDraw.setPosition(xPos, ScreenHeight * 0.9);
+	target.draw(textToDraw);
+}
+
 bool isOutOfScreen(Rectangle& obj)
 {
 	float x = obj.getPosition().x;

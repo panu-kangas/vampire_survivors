@@ -1,29 +1,26 @@
 #include "GameState.hpp"
-#include "Vampire.h"
 #include <SFML/Graphics.hpp>
-#include <vector>
 
-class VampireHandler;
 
-class StartScreen : public GameState {
+class EndScreen : public GameState {
 
 	public:
 	
-	StartScreen() = delete;
-    StartScreen(Game* gamePtr);
+	EndScreen() = delete;
+    EndScreen(Game* gamePtr);
+	~EndScreen() = default;
 
     void handleInput(InputData inputData) override;
     void update(float deltaTime) override;
     void render(sf::RenderTarget& target, sf::RenderStates& states) override;
 
 	bool isReady() { return m_isReady; };
+	void setIsReady(bool ready) { m_isReady = ready; };
 
 	private:
 
     sf::Font* m_font;
     sf::Text m_welcomeText;
 	bool m_isReady = false;
-
-	std::unique_ptr<VampireHandler> m_pVampireHandler;
 
 };

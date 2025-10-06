@@ -6,22 +6,27 @@
 
 #include "ResourceManager.h"
 #include "InputHandler.h"
+#include "EndScreen.hpp"
 #include "Weapon.h"
 #include "Player.h"
 #include "Rectangle.h"
 #include "Vampire.h"
 #include "VampireHandler.hpp"
-#include "StartScreenState.hpp"
+#include "StartScreen.hpp"
 #include "utilities.hpp"
 
 
 Game::Game() :
     m_state(State::START_SCREEN),
     m_pClock(std::make_unique<sf::Clock>()),
-    m_pPlayer(std::make_unique<Player>(this))
+    m_pPlayer(std::make_unique<Player>(this)),
+	m_scoreInfo(this)
 {
     m_pGameInput = std::make_unique<GameInput>(this, m_pPlayer.get());
 	m_pStartScreen = std::make_unique<StartScreen>(this);
+	m_pEndScreen = std::make_unique<EndScreen>(this);
+
+	updateScoreInfo();
 }
 
 Game::~Game()
@@ -70,9 +75,20 @@ void Game::resetLevel()
 {
     m_vampireHandler->initVampires();
 
-	m_score = 0;
     m_pPlayer->initialise();
     m_pClock->restart();
+}
+
+void Game::updateScoreInfo()
+{
+	m_scoreInfo.setText(
+		{"Time survived:  " + std::to_string((int)m_pClock->getElapsedTime().asSeconds()),
+		"Your score:  " + std::to_string(m_score)}
+	);
+	m_scoreInfo.setColor(sf::Color(242, 134, 39, 180));
+	auto scoreInfoSize = m_scoreInfo.getSize();
+	float infoX = ScreenWidth / 2 - scoreInfoSize.x / 2;
+	m_scoreInfo.setPosition({infoX, 0});
 }
 
 void Game::update(float deltaTime)
@@ -84,7 +100,10 @@ void Game::update(float deltaTime)
 			m_pStartScreen->handleInput(m_pGameInput->getInputData());
 			m_pStartScreen->update(deltaTime);
 			if (m_pStartScreen->isReady())
+			{
 				m_state = State::WAITING;
+   				m_pClock->restart();
+			}
 
 			break ;
 		}
@@ -106,6 +125,8 @@ void Game::update(float deltaTime)
             m_vampireHandler->vampireSpawner(deltaTime);
             m_vampireHandler->update(deltaTime, m_state);
 
+			updateScoreInfo();
+
             if (m_pPlayer->isDead())
             {
                 m_state = State::GAME_OVER;
@@ -115,8 +136,12 @@ void Game::update(float deltaTime)
 
 		case State::GAME_OVER:
 		{
-			if (m_pGameInput->isEnterPressed())
+			m_pEndScreen->handleInput(m_pGameInput->getInputData());
+			if (m_pEndScreen->isReady())
 			{
+				m_score = 0;
+				m_pClock->restart();
+				m_pEndScreen->setIsReady(false);
 				m_state = State::WAITING;
 			}
 		}
@@ -126,9 +151,13 @@ void Game::update(float deltaTime)
 
 }
 
-void Game::drawFloor(sf::RenderTarget &target) const
+void Game::drawFloor(sf::RenderTarget &target, bool isRed) const
 {
 	sf::Sprite tempSprite = m_floorSprite;
+	if (isRed)
+	{
+		tempSprite.setColor(sf::Color::Red);
+	}
 
 	// -10 because the sprite had rounded corners --> empty spot in top left corner
 	for (int x = -10; x < ScreenWidth; x += tempSprite.getLocalBounds().width)
@@ -153,33 +182,19 @@ void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
 	}
     else if (m_state == State::WAITING)
     {
-        drawText(target, m_font, "Game Start!!");
+        drawHeaderText(target, m_font, "Game Start!!");
     }
 	else if (m_state == State::GAME_OVER)
 	{
-        drawText(target, m_font, "You Died!! Press enter to restart");
+		m_pEndScreen->render(target, states);
 	}
     else
     {
-        sf::Text timerText;
-        timerText.setFont(m_font);
-        timerText.setFillColor(sf::Color::White);
-        timerText.setStyle(sf::Text::Bold);
-        timerText.setString(std::to_string((int)m_pClock->getElapsedTime().asSeconds()));
-        timerText.setPosition(sf::Vector2f((ScreenWidth - timerText.getLocalBounds().getSize().x) * 0.5, 20));
-        target.draw(timerText);
-
-		sf::Text scoreText;
-        scoreText.setFont(m_font);
-        scoreText.setFillColor(sf::Color::White);
-        scoreText.setStyle(sf::Text::Bold);
-        scoreText.setString("Your score: " + std::to_string(m_score));
-        scoreText.setPosition(sf::Vector2f((ScreenWidth - scoreText.getLocalBounds().width) - 30, 20));
-        target.draw(scoreText);
+		m_scoreInfo.render(target, states);
     }
 
 	
-	if (m_state != State::START_SCREEN)
+	if (m_state != State::START_SCREEN && m_state != State::GAME_OVER)
 	{
 		// Draw player.
 		m_pPlayer->draw(target, states);

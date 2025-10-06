@@ -13,6 +13,8 @@ int main(int argc, char* argv[])
     ResourceManager::init(argv[0]);
 
     sf::RenderWindow window(sf::VideoMode(ScreenWidth, ScreenHeight), "Survive");
+	window.setVerticalSyncEnabled(true);
+	window.setFramerateLimit(60);
     
     std::unique_ptr<Game> pGame = std::make_unique<Game>();
     if (!pGame->initialise())

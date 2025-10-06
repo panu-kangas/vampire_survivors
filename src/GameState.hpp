@@ -20,5 +20,5 @@ class GameState {
 
 	protected:
 
-	Game*   m_pGame;
+	Game*   m_pGame = nullptr;
 };
