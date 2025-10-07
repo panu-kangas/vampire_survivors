@@ -27,7 +27,7 @@ class LevelHandler
 	private:
 
 	std::array<LevelData, 7> m_levelArr = {{
-		{1, {10, 0, 0, 0, 1.0f}},
+		{1, {10, 10, 0, 0, 1.0f}},
 		{2, {25, 0, 0, 0, 0.8f}},
 		{3, {30, 10, 0, 0, 0.8f}},
 		{4, {40, 15, 10, 0, 0.7f}},

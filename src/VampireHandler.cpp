@@ -3,6 +3,7 @@
 #include "VampireHandler.hpp"
 #include "ResourceManager.h"
 #include "Vampire.h"
+#include "RedVampire.hpp"
 #include "utilities.hpp"
 
 #include <iostream>
@@ -15,6 +16,86 @@ VampireHandler::VampireHandler(Game* pGame, sf::Texture& vampTexture, float vamp
 	m_nextVampireCooldown = m_vampireCooldown;
 }
 
+VampireTypes VampireHandler::getVampireType(VampireLevelData& vampireData)
+{
+	std::vector<std::pair<VampireTypes, unsigned>> vampireCounts {
+		{WHITE_VAMPIRE, vampireData.whiteVampireCount},
+		{RED_VAMPIRE, vampireData.redVampireCount},
+		{GREEN_VAMPIRE, vampireData.greenVampireCount},
+		{BOSS_VAMPIRE, vampireData.bossVampireCount}
+	};
+	
+	unsigned totalVampires = 0;
+	for (auto& pair : vampireCounts)
+	{
+		totalVampires += pair.second;
+	}
+
+	int roll = rand() % totalVampires;
+
+	// std::cout << "Roll is: " << roll << "\n";
+
+	int idx = 0;
+	for (int i = 0; i < vampireCounts.size(); ++i)
+	{
+		roll -= vampireCounts[i].second;
+		if (roll <= 0)
+		{
+			idx = i;
+			break ;
+		}
+	}
+
+	// std::cout << "We got vampire type : " << vampireCounts[idx].first << "\n";
+
+	return vampireCounts[idx].first;
+}
+
+void VampireHandler::addVampireToVec(sf::Vector2f& position, VampireTypes& type, VampireLevelData& vampireData)
+{
+	switch (type)
+	{
+		case WHITE_VAMPIRE:
+		{
+			// std::cout << "Case white vamp\n";
+			if (vampireData.whiteVampireCount > 0)
+			{
+				m_pVampires.push_back(std::make_unique<Vampire>(m_pGame, position));
+				vampireData.whiteVampireCount--;
+				break ;
+			}
+		}
+
+		case RED_VAMPIRE:
+		{
+			// std::cout << "Case red vamp\n";
+			if (vampireData.redVampireCount > 0)
+			{
+				m_pVampires.push_back(std::make_unique<RedVampire>(m_pGame, position));
+				vampireData.redVampireCount--;
+				break ;
+			}
+		}
+
+		case GREEN_VAMPIRE:
+		{
+			break ;
+		}
+
+		case BOSS_VAMPIRE:
+		{
+			break ;
+		}
+
+		default:
+		{
+			break ;
+		}
+	}
+}
+
+
+
 void VampireHandler::vampireSpawner(float deltaTime, VampireLevelData& vampireData)
 {
 	if (isVampireDataEmpty(vampireData))
@@ -25,6 +106,8 @@ void VampireHandler::vampireSpawner(float deltaTime, VampireLevelData& vampireDa
         m_nextVampireCooldown -= deltaTime;
         return;
     }
+
+	VampireTypes type = getVampireType(vampireData);
 
     float randomXPos = rand() % ScreenWidth;
     float randomYPos = rand() % ScreenHeight;
@@ -41,14 +124,10 @@ void VampireHandler::vampireSpawner(float deltaTime, VampireLevelData& vampireDa
         randomYPos += yMinDist;
 
     sf::Vector2f spawnPosition = sf::Vector2f(randomXPos, randomYPos);
-    m_pVampires.push_back(std::make_unique<Vampire>(m_pGame, spawnPosition));
-
-	if (vampireData.whiteVampireCount > 0)
-		vampireData.whiteVampireCount--;
+	addVampireToVec(spawnPosition, type, vampireData);
 
 	m_nextVampireCooldown = m_vampireCooldown;
 
-	
 }
 
 void VampireHandler::StartScreenVampireSpawner(float deltaTime)

@@ -1,5 +1,5 @@
 Working hours spent:
-11h
+13h
 
 
 BUG FIXES
@@ -17,7 +17,7 @@ IMPROVEMENTS
 - Attack cooldown for player
 - New utility function for drawing text
 - VampireHandler class added --> Takes care of all Vampire related like spawning, update and destruction.
-- Added EndScreen that shows the player score
+- Updated EndScreen so that it shows the player score and is visually better
 
 
 ADDITIONS
@@ -26,4 +26,6 @@ ADDITIONS
 - New State system for the game: Base class GameState and inherited classes for other states
 - Score system added
 - Added InfoBox class that allows more fluent UI generation
+- Added music and SFX
 - Added Level system, removed time-based survival idea
+- Added new enemy type (Red Vampire, sort of a kamikaze-enemy)

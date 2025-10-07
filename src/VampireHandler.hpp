@@ -4,8 +4,15 @@
 #include "Vampire.h"
 #include "DataStructs.hpp"
 
-
 class Game;
+
+enum VampireTypes
+{
+	WHITE_VAMPIRE,
+	RED_VAMPIRE,
+	GREEN_VAMPIRE,
+	BOSS_VAMPIRE
+};
 
 class VampireHandler
 {
@@ -24,6 +31,9 @@ class VampireHandler
 	bool isVampireVecEmpty() const { return m_pVampires.empty(); };
 
 	private:
+
+	VampireTypes getVampireType(VampireLevelData& vampireData);
+	void addVampireToVec(sf::Vector2f& position, VampireTypes& type, VampireLevelData& vampireData);
 
 	float m_vampireCooldown;
 	float m_nextVampireCooldown;
