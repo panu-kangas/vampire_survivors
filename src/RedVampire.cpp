@@ -10,6 +10,7 @@
 RedVampire::RedVampire(Game* game, sf::Vector2f position) : Vampire(game, position)
 {
 	m_sprite.setColor(sf::Color::Red);
+	m_sprite.setScale(2.3f, 2.3f);
 
 	m_dirChangeTimer.restart();
 

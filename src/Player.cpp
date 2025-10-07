@@ -11,6 +11,7 @@ Player::Player(Game* pGame) :
     m_pWeapon(std::make_unique<Weapon>())
 {
     setOrigin(sf::Vector2f(0.0f, 0.0f));
+	m_playerDamageClock.restart();
 }
 
 bool Player::initialise()
@@ -24,6 +25,8 @@ bool Player::initialise()
     setPosition(ScreenWidth / 2, ScreenHeight / 2);
     m_sprite.setPosition(getPosition());
 	m_pWeapon->setActive(false);
+	m_health = PlayerStartHealth;
+	// m_playerDamageClock.restart(); --> is this necessary?
     return true;
 }
 
@@ -97,4 +100,15 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     Rectangle::draw(target, states);
     m_pWeapon->draw(target, states);
+}
+
+void Player::takeDamage()
+{
+	if (m_playerDamageClock.getElapsedTime().asSeconds() > PlayerDamageCooldown)
+	{
+		m_health--;
+		m_playerDamageClock.restart();
+		if (m_health == 0)
+			m_isDead = true;
+	}
 }

@@ -41,6 +41,7 @@ public:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
     State getState() const { return m_state; }
+	void setState(State newState) { m_state = newState; };
 	void drawFloor(sf::RenderTarget &target, bool isRed = false) const;
     
     void onKeyPressed(sf::Keyboard::Key key);

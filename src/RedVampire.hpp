@@ -20,6 +20,8 @@ private:
 	void getNewDirection();
 
 	sf::Clock m_dirChangeTimer;
+	// Add "Rampage timer" here; Red Vampires will target player after certain time has passed
+	
 	sf::Vector2f m_curDir;
   
 };

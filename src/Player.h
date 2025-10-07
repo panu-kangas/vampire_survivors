@@ -2,6 +2,7 @@
 
 #include "Rectangle.h"
 #include "Weapon.h"
+#include "Constants.h"
 
 #include <memory>
 #include <SFML/Audio.hpp>
@@ -31,12 +32,16 @@ public:
 
     bool isDead() const { return m_isDead; }
     void setIsDead(bool isDead) { m_isDead = isDead; }
+	void takeDamage();
 
     Weapon* getWeapon() { return m_pWeapon.get(); }
+	int	getHealth() { return m_health; };
 
 private:
     bool    m_isDead = false;
 	float	m_attackCooldown = 0.0f;
+	int		m_health = PlayerStartHealth;
+	sf::Clock m_playerDamageClock;
     eDirection m_direction = LEFT;
 	eDirection m_facingDirection = LEFT;
     Game*   m_pGame;

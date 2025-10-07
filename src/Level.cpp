@@ -62,7 +62,8 @@ void Level::updateScoreInfo()
 {
 	m_scoreInfo.setText(
 		{"Your coins:  " + std::to_string(m_pGame->getCoins()),
-		"Vampires left: " + std::to_string(m_vampireData.whiteVampireCount)}
+		"Vampires left: " + std::to_string(m_vampireData.whiteVampireCount),
+		"Lives left: " + std::to_string(m_pGame->getPlayer()->getHealth())}
 	);
 	m_scoreInfo.setColor(sf::Color(242, 134, 39, 180));
 	auto scoreInfoSize = m_scoreInfo.getSize();

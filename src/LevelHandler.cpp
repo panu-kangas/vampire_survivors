@@ -1,5 +1,6 @@
 #include "LevelHandler.hpp"
 #include "Player.h"
+#include "Game.h"
 
 LevelHandler::LevelHandler(Game* gamePtr) : m_pGame(gamePtr)
 {
@@ -25,7 +26,8 @@ void LevelHandler::update(float deltaTime, InputData& inputData)
 	}
 	else if (m_pGame->getPlayer()->isDead())
 	{
-
+		m_curLevelId = 1;
+		m_pGame->setState(Game::State::GAME_OVER);
 	}
 }
 

@@ -106,7 +106,6 @@ void Game::update(float deltaTime)
 				m_pStartScreen->setIsReady(false);
 				m_state = State::ACTIVE;
 			}
-
 			break ;
 		}
             
@@ -114,11 +113,6 @@ void Game::update(float deltaTime)
         {
 			m_pGameInput->update(deltaTime);
             m_levelHandler->update(deltaTime, m_pGameInput->getInputData());
-
-            if (m_pPlayer->isDead())
-            {
-                m_state = State::GAME_OVER;
-            }
 			break ;
         }
 
