@@ -13,7 +13,7 @@ class GameState {
     virtual ~GameState() = default;
 
     virtual void onEnter() {}
-    virtual void handleInput(InputData inputData) = 0;
+    virtual void handleInput(InputData& inputData) = 0;
     virtual void update(float deltaTime) = 0;
     virtual void render(sf::RenderTarget& target, sf::RenderStates& states) = 0;
     virtual void onExit() {}

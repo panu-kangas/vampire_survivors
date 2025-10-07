@@ -14,11 +14,12 @@ class StartScreen : public GameState {
     StartScreen(Game* gamePtr);
 	~StartScreen() = default;
 
-    void handleInput(InputData inputData) override;
+    void handleInput(InputData& inputData) override;
     void update(float deltaTime) override;
     void render(sf::RenderTarget& target, sf::RenderStates& states) override;
 
 	bool isReady() { return m_isReady; };
+	void setIsReady(bool isReady) { m_isReady = isReady; };
 
 	private:
 

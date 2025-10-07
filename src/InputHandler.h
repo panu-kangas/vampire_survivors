@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Window/Keyboard.hpp>
+#include <SFML/System.hpp>
 
 class Player;
 class Game;
@@ -27,11 +28,13 @@ public:
     void update(float deltaTime);
     void onKeyPressed(sf::Keyboard::Key key);
     void onKeyReleased(sf::Keyboard::Key key);
-	bool isEnterPressed() { return m_inputData.m_enter; };
+	bool isEnterPressed();
 	InputData& getInputData() { return m_inputData; };
+	
     
 private:
     InputData m_inputData;
     Game* m_pGame;
     Player* m_pPlayer;
+	sf::Clock m_enterClock;
 };

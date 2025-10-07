@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "Constants.h"
+#include "DataStructs.hpp"
 
 class Rectangle;
 
@@ -10,4 +11,5 @@ void drawHeaderText(sf::RenderTarget &target, sf::Font font, std::string text);
 void drawCenteredText(sf::RenderTarget &target, sf::Font font, std::string text);
 void drawBottomText(sf::RenderTarget &target, sf::Font font, std::string text);
 bool isOutOfScreen(Rectangle& obj);
+bool isVampireDataEmpty(VampireLevelData& vampireData);
 

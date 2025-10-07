@@ -1,13 +1,13 @@
 #pragma once
 
 #include "Rectangle.h"
+#include "Weapon.h"
 
 #include <memory>
+#include <SFML/Audio.hpp>
 
 struct InputData;
-
 class Game;
-class Weapon;
 
 enum eDirection
 {
@@ -41,4 +41,5 @@ private:
 	eDirection m_facingDirection = LEFT;
     Game*   m_pGame;
     std::unique_ptr<Weapon> m_pWeapon;
+	sf::Sound m_hitSound;
 };

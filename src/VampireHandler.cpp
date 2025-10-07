@@ -3,21 +3,26 @@
 #include "VampireHandler.hpp"
 #include "ResourceManager.h"
 #include "Vampire.h"
+#include "utilities.hpp"
 
 #include <iostream>
 
-VampireHandler::VampireHandler(Game* pGame, sf::Texture& vampTexture) : 
+VampireHandler::VampireHandler(Game* pGame, sf::Texture& vampTexture, float vampireSpawnRate) : 
 	m_pGame(pGame),
 	m_vampTexture(vampTexture)
 {
-
+	m_vampireCooldown = vampireSpawnRate;
+	m_nextVampireCooldown = m_vampireCooldown;
 }
 
-void VampireHandler::vampireSpawner(float deltaTime)
+void VampireHandler::vampireSpawner(float deltaTime, VampireLevelData& vampireData)
 {
-    if (m_vampireCooldown > 0.0f)
+	if (isVampireDataEmpty(vampireData))
+		return ;
+	
+    if (m_nextVampireCooldown > 0.0f)
     {
-        m_vampireCooldown -= deltaTime;
+        m_nextVampireCooldown -= deltaTime;
         return;
     }
 
@@ -38,19 +43,19 @@ void VampireHandler::vampireSpawner(float deltaTime)
     sf::Vector2f spawnPosition = sf::Vector2f(randomXPos, randomYPos);
     m_pVampires.push_back(std::make_unique<Vampire>(m_pGame, spawnPosition));
 
-    m_spawnCount++;
-    if (m_spawnCount % 5 == 0)
-    {
-        m_nextVampireCooldown -= 0.1f;
-    }
-    m_vampireCooldown = m_nextVampireCooldown;
+	if (vampireData.whiteVampireCount > 0)
+		vampireData.whiteVampireCount--;
+
+	m_nextVampireCooldown = m_vampireCooldown;
+
+	
 }
 
 void VampireHandler::StartScreenVampireSpawner(float deltaTime)
 {
-    if (m_vampireCooldown > 0.0f)
+    if (m_nextVampireCooldown > 0.0f)
     {
-        m_vampireCooldown -= deltaTime;
+        m_nextVampireCooldown -= deltaTime;
         return;
     }
 
@@ -65,20 +70,8 @@ void VampireHandler::StartScreenVampireSpawner(float deltaTime)
     sf::Vector2f spawnPosition = sf::Vector2f(randomXPos, randomYPos);
     m_pVampires.push_back(std::make_unique<Vampire>(m_pGame, spawnPosition));
 
-    m_spawnCount++;
-    if (m_spawnCount % 5 == 0)
-    {
-        m_nextVampireCooldown -= 0.1f;
-    }
-    m_vampireCooldown = m_nextVampireCooldown;
-}
+	m_nextVampireCooldown = m_vampireCooldown;
 
-void VampireHandler::initVampires()
-{
-	m_pVampires.clear();
-	m_vampireCooldown = 0.0f;
-    m_nextVampireCooldown = 2.0f;
-    m_spawnCount = 0;
 }
 
 void 	VampireHandler::update(float deltaTime, Game::State gameState)
@@ -93,7 +86,7 @@ void 	VampireHandler::update(float deltaTime, Game::State gameState)
 		{
 			bool vampireDied = temp->update(deltaTime);
 			if (vampireDied)
-				m_pGame->getScore()++;
+				m_pGame->getCoins()++;
 		}
 	}
 

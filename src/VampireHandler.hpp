@@ -1,8 +1,10 @@
 #pragma once
 
 #include <SFML/Graphics/Sprite.hpp>
+#include "Vampire.h"
+#include "DataStructs.hpp"
 
-class Vampire;
+
 class Game;
 
 class VampireHandler
@@ -10,22 +12,21 @@ class VampireHandler
 	public:
 
 	VampireHandler() = delete;
-	VampireHandler(Game* pGame, sf::Texture& vampTexture);
+	VampireHandler(Game* pGame, sf::Texture& vampTexture, float vampireSpawnRate);
 	~VampireHandler() = default;
 
-	float	getNextVampireCooldown() { return m_nextVampireCooldown; }
-	void 	vampireSpawner(float deltaTime);
+	void 	vampireSpawner(float deltaTime, VampireLevelData& vampireData);
 	void	StartScreenVampireSpawner(float deltaTime);
-	void 	initVampires();
 	void 	update(float deltaTime, Game::State gameState);
 	void	drawVampires(sf::RenderTarget &target, sf::RenderStates states);
 	std::vector<std::unique_ptr<Vampire>>& getVampires() { return m_pVampires; };
 
+	bool isVampireVecEmpty() const { return m_pVampires.empty(); };
+
 	private:
 
-	float m_vampireCooldown = 0.0f;
-    float m_nextVampireCooldown = 2.0f;
-    int m_spawnCount = 0;
+	float m_vampireCooldown;
+	float m_nextVampireCooldown;
 
 	std::vector<std::unique_ptr<Vampire>> m_pVampires;
 

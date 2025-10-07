@@ -1,5 +1,5 @@
 Working hours spent:
-9h
+11h
 
 
 BUG FIXES
@@ -26,3 +26,4 @@ ADDITIONS
 - New State system for the game: Base class GameState and inherited classes for other states
 - Score system added
 - Added InfoBox class that allows more fluent UI generation
+- Added Level system, removed time-based survival idea

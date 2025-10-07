@@ -12,21 +12,20 @@
 #include "Rectangle.h"
 #include "Vampire.h"
 #include "VampireHandler.hpp"
+#include "LevelHandler.hpp"
 #include "StartScreen.hpp"
 #include "utilities.hpp"
 
 
 Game::Game() :
     m_state(State::START_SCREEN),
-    m_pClock(std::make_unique<sf::Clock>()),
-    m_pPlayer(std::make_unique<Player>(this)),
-	m_scoreInfo(this)
+    m_pPlayer(std::make_unique<Player>(this))
 {
     m_pGameInput = std::make_unique<GameInput>(this, m_pPlayer.get());
 	m_pStartScreen = std::make_unique<StartScreen>(this);
 	m_pEndScreen = std::make_unique<EndScreen>(this);
+	m_levelHandler = std::make_unique<LevelHandler>(this);
 
-	updateScoreInfo();
 }
 
 Game::~Game()
@@ -60,35 +59,38 @@ bool Game::initialise()
         std::cerr << "Unable to load texture" << std::endl;
         return false;
     }
+	if (!m_backgroundMusic.openFromFile("assets/background_music.ogg")) {
+		std::cerr << "Failed to load music!" << std::endl;
+		return false;
+	}
+	if (!m_playerAttackMissBuff.loadFromFile("assets/player_attack_miss.ogg")) {
+		std::cerr << "Failed to load SFX for player attack miss!" << std::endl;
+		return false;
+	}
+	if (!m_playerAttackHitBuff.loadFromFile("assets/player_attack_hit.ogg")) {
+		std::cerr << "Failed to load SFX for player attack hit!" << std::endl;
+		return false;
+	}
+
+	m_backgroundMusic.setLoop(true);
+	m_backgroundMusic.setVolume(50.f);
+	m_backgroundMusic.play();
 
 	m_floorSprite.setTexture(m_floorTexture);
     m_floorSprite.setOrigin(sf::Vector2f(0.0f, 0.0f));
     m_floorSprite.setScale(2.0f, 2.0f);
+	m_floorSprite.setColor(sf::Color(169, 169, 169));
 
-	m_vampireHandler = std::make_unique<VampireHandler>(this, m_vampTexture);
+	m_pPlayer->initialise();
 
-    resetLevel();
     return true;
 }
 
-void Game::resetLevel()
+void Game::resetGame()
 {
-    m_vampireHandler->initVampires();
-
+	m_levelHandler->initNewLevel(1);
+	m_coinCount = 0;
     m_pPlayer->initialise();
-    m_pClock->restart();
-}
-
-void Game::updateScoreInfo()
-{
-	m_scoreInfo.setText(
-		{"Time survived:  " + std::to_string((int)m_pClock->getElapsedTime().asSeconds()),
-		"Your score:  " + std::to_string(m_score)}
-	);
-	m_scoreInfo.setColor(sf::Color(242, 134, 39, 180));
-	auto scoreInfoSize = m_scoreInfo.getSize();
-	float infoX = ScreenWidth / 2 - scoreInfoSize.x / 2;
-	m_scoreInfo.setPosition({infoX, 0});
 }
 
 void Game::update(float deltaTime)
@@ -101,37 +103,23 @@ void Game::update(float deltaTime)
 			m_pStartScreen->update(deltaTime);
 			if (m_pStartScreen->isReady())
 			{
-				m_state = State::WAITING;
-   				m_pClock->restart();
+				m_pStartScreen->setIsReady(false);
+				m_state = State::ACTIVE;
 			}
 
 			break ;
 		}
-        case State::WAITING:
-        {
-            if (m_pClock->getElapsedTime().asSeconds() >= 3.f)
-            {
-                m_state = State::ACTIVE;
-                m_pClock->restart();
-            }
-        }
-        break;
             
         case State::ACTIVE:
         {
-            m_pGameInput->update(deltaTime);
-            m_pPlayer->update(deltaTime);
-
-            m_vampireHandler->vampireSpawner(deltaTime);
-            m_vampireHandler->update(deltaTime, m_state);
-
-			updateScoreInfo();
+			m_pGameInput->update(deltaTime);
+            m_levelHandler->update(deltaTime, m_pGameInput->getInputData());
 
             if (m_pPlayer->isDead())
             {
                 m_state = State::GAME_OVER;
-                resetLevel();
             }
+			break ;
         }
 
 		case State::GAME_OVER:
@@ -139,10 +127,9 @@ void Game::update(float deltaTime)
 			m_pEndScreen->handleInput(m_pGameInput->getInputData());
 			if (m_pEndScreen->isReady())
 			{
-				m_score = 0;
-				m_pClock->restart();
+				resetGame();
 				m_pEndScreen->setIsReady(false);
-				m_state = State::WAITING;
+				m_state = State::START_SCREEN;
 			}
 		}
 
@@ -172,38 +159,22 @@ void Game::drawFloor(sf::RenderTarget &target, bool isRed) const
 
 void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-	if (m_state != State::START_SCREEN)
-		drawFloor(target);
 
     //  Draw texts.
 	if (m_state == State::START_SCREEN)
 	{
 		m_pStartScreen->render(target, states);
 	}
-    else if (m_state == State::WAITING)
-    {
-        drawHeaderText(target, m_font, "Game Start!!");
-    }
 	else if (m_state == State::GAME_OVER)
 	{
 		m_pEndScreen->render(target, states);
 	}
     else
     {
-		m_scoreInfo.render(target, states);
+		m_levelHandler->render(target, states);
     }
-
-	
-	if (m_state != State::START_SCREEN && m_state != State::GAME_OVER)
-	{
-		// Draw player.
-		m_pPlayer->draw(target, states);
-		
-		m_vampireHandler->drawVampires(target, states);
-	}
    
 }
-
 
 void Game::onKeyPressed(sf::Keyboard::Key key)
 {
@@ -218,4 +189,9 @@ void Game::onKeyReleased(sf::Keyboard::Key key)
 Player* Game::getPlayer() const 
 {
     return m_pPlayer.get();
+}
+
+bool Game::isEnterPressed()
+{
+	return m_pGameInput->isEnterPressed();
 }

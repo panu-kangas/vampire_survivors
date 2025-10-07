@@ -9,12 +9,15 @@
 StartScreen::StartScreen(Game* gamePtr) : GameState(gamePtr), instructionBox(gamePtr)
 {
 	m_font = m_pGame->getFont();
-	m_pVampireHandler = std::make_unique<VampireHandler>(m_pGame, *m_pGame->getVampireTexture());
+	m_pVampireHandler = std::make_unique<VampireHandler>(m_pGame, *m_pGame->getVampireTexture(), 2.0f);
 
 	std::vector<std::string> infoText {
 		"INSTRUCTIONS",
 		"",
 		"Try to survive as long as you can against an endless swarm of blood thirsty Vampires!",
+		"",
+		"You get coins for slaying vampires.",
+		"After each level, you can use your coins to buy new weapons.",
 		"",
 		"Move: Arrow keys",
 		"Hit enemies: Space"
@@ -24,18 +27,16 @@ StartScreen::StartScreen(Game* gamePtr) : GameState(gamePtr), instructionBox(gam
 	instructionBox.setColor(sf::Color(242, 134, 39, 200));
 	auto instructionSize = instructionBox.getSize();
 	float infoX = ScreenWidth / 2 - instructionSize.x / 2;
-	float infoY = ScreenHeight * 0.7;
+	float infoY = ScreenHeight * 0.6;
 	instructionBox.setPosition({infoX, infoY});
 }
 
-void StartScreen::handleInput(InputData inputData)
+void StartScreen::handleInput(InputData& inputData)
 {
-	if (inputData.m_enter)
+	if (m_pGame->isEnterPressed())
 	{
 		m_isReady = true;
-		m_pVampireHandler->initVampires();
 	}
-
 }
 
 void StartScreen::update(float deltaTime)
@@ -49,6 +50,6 @@ void StartScreen::render(sf::RenderTarget& target, sf::RenderStates& states)
 	m_pGame->drawFloor(target);
 	m_pVampireHandler->drawVampires(target, states);
 	drawHeaderText(target, *m_font, "Welcome, Player!");
-	drawCenteredText(target, *m_font, "Press Enter to start the game.");
+	drawCenteredText(target, *m_font, "Press Enter to start the game");
 	instructionBox.render(target, states);
 }

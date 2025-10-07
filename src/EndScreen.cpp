@@ -10,9 +10,9 @@ EndScreen::EndScreen(Game* gamePtr) : GameState(gamePtr)
 	m_font = m_pGame->getFont();
 }
 
-void EndScreen::handleInput(InputData inputData)
+void EndScreen::handleInput(InputData& inputData)
 {
-	if (inputData.m_enter)
+	if (m_pGame->isEnterPressed())
 	{
 		m_isReady = true;
 	}
@@ -28,7 +28,7 @@ void EndScreen::render(sf::RenderTarget& target, sf::RenderStates& states)
 {
 	m_pGame->drawFloor(target, true);
 	drawHeaderText(target, *m_font, "You died!");
-	std::string scoreString = std::to_string(m_pGame->getScore());
+	std::string scoreString = std::to_string(m_pGame->getCoins());
 	drawCenteredText(target, *m_font, "Your score was: " + scoreString);
 	drawBottomText(target, *m_font, "Press Enter to play again!");
 }

@@ -60,6 +60,8 @@ void Player::attack()
 	{
     	m_pWeapon->setActive(true);
 		m_attackCooldown = PlayerAttackCooldown;
+		m_hitSound.setBuffer(*m_pGame->getPlayerAttackMissBuff());
+		m_hitSound.play();
 	}
 }
 

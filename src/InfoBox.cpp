@@ -20,7 +20,7 @@ void InfoBox::setText(std::vector<std::string> texts)
 			maxSize = textSize;
 	}
 
-	m_size.x = maxSize * (m_fontSize / 2) + 20.f; // Added padding
+	m_size.x = maxSize * (m_fontSize / 2);
 	m_size.y = m_textVec.size() * m_lineHeight + 40.f;
 }
 
@@ -31,6 +31,8 @@ void InfoBox::render(sf::RenderTarget& target, sf::RenderStates& states) const
     sf::RectangleShape background(m_size);
     background.setPosition(m_position);
     background.setFillColor(m_bgColor);
+	background.setOutlineColor(sf::Color::Black);
+	background.setOutlineThickness(2.f);
     target.draw(background);
 
 	// Prepare text

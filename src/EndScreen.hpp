@@ -10,7 +10,7 @@ class EndScreen : public GameState {
     EndScreen(Game* gamePtr);
 	~EndScreen() = default;
 
-    void handleInput(InputData inputData) override;
+    void handleInput(InputData& inputData) override;
     void update(float deltaTime) override;
     void render(sf::RenderTarget& target, sf::RenderStates& states) override;
 

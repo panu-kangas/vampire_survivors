@@ -1,12 +1,13 @@
+#include "Constants.h"
 #include "InputHandler.h"
 #include "Weapon.h"
 #include "Player.h"
 
+#include <iostream>
+
 GameInput::GameInput(Game* pGame, Player* pPlayer) :
     m_pGame(pGame), m_pPlayer(pPlayer)
 {
-
-    
 }
 
 GameInput::~GameInput()
@@ -83,4 +84,14 @@ void GameInput::onKeyReleased(sf::Keyboard::Key key)
     {
         m_inputData.m_enter = false;
     }
+}
+
+bool GameInput::isEnterPressed()
+{
+	if (m_enterClock.getElapsedTime().asSeconds() > EnterCooldown && m_inputData.m_enter)
+	{
+		m_enterClock.restart();
+		return true;
+	}
+	return false;
 }

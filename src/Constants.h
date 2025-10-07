@@ -15,3 +15,5 @@ const float VampireSpeed = 100.0f;
 const float WeaponHeight = 10.0f;
 const float WeaponWidth = 100.0f;
 const float WeaponActiveTime = 0.25f;
+
+const float EnterCooldown = 1.f;

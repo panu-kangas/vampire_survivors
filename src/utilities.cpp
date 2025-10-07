@@ -35,7 +35,7 @@ void drawCenteredText(sf::RenderTarget &target, sf::Font font, std::string text)
 	textToDraw.setFillColor(sf::Color::White);
 	textToDraw.setStyle(sf::Text::Bold);
 	float xPos = ScreenWidth / 2 - textToDraw.getLocalBounds().width / 2;
-	textToDraw.setPosition(xPos, ScreenHeight / 2);
+	textToDraw.setPosition(xPos, ScreenHeight * 0.4);
 	target.draw(textToDraw);
 }
 
@@ -62,5 +62,15 @@ bool isOutOfScreen(Rectangle& obj)
 	if (x < 0 - width || x > ScreenWidth || y < 0 - height || y > ScreenHeight)
 		return true;
 
+	return false;
+}
+
+bool isVampireDataEmpty(VampireLevelData& vampireData)
+{
+	if (vampireData.whiteVampireCount == 0 && vampireData.redVampireCount == 0
+	&& vampireData.greenVampireCount == 0 && vampireData.bossVampireCount == 0)
+	{
+		return true;
+	}
 	return false;
 }
