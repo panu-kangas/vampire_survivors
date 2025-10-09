@@ -1,5 +1,5 @@
 Working hours spent:
-13h
+16h
 
 
 BUG FIXES
@@ -25,7 +25,8 @@ ADDITIONS
 - Start Screen added
 - New State system for the game: Base class GameState and inherited classes for other states
 - Score system added
-- Added InfoBox class that allows more fluent UI generation
+- Added InfoBox class that allows more fluent UI generation --> Updated for better dynamical size
 - Added music and SFX
 - Added Level system, removed time-based survival idea
 - Added new enemy type (Red Vampire, sort of a kamikaze-enemy)
+- Added health system with visual representation (blinking player when damage is taken + health amount box)

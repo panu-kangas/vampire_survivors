@@ -48,6 +48,14 @@ void RedVampire::getNewDirection()
 
 bool RedVampire::update(float deltaTime)
 {
+
+	/**
+	 * NOTE! 
+	 * Update could not be overridden, instead just make a "new direction" function
+	 * that is then overridden by RedVampire.
+	 * This way we have the collision logic as common but moving patterns separate
+	 */
+
 	if (m_isKilled)
         return false;
 	
@@ -60,7 +68,10 @@ bool RedVampire::update(float deltaTime)
     }
 
     if (collidesWith(pPlayer))
-        pPlayer->setIsDead(true);
+	{
+        pPlayer->takeDamage();
+		return false;
+	}
 
 	
 	if (m_dirChangeTimer.getElapsedTime().asSeconds() > RedVampireDirChangeCooldown)

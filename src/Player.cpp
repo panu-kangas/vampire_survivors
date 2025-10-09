@@ -12,9 +12,10 @@ Player::Player(Game* pGame) :
 {
     setOrigin(sf::Vector2f(0.0f, 0.0f));
 	m_playerDamageClock.restart();
+	m_blinkTimer.restart();
 }
 
-bool Player::initialise()
+bool Player::initialise(bool isFullReset)
 {
     m_sprite.setTexture(*m_pGame->getPlayerTexture());
     m_sprite.setOrigin(sf::Vector2f(0.0f, 0.0f));
@@ -25,8 +26,8 @@ bool Player::initialise()
     setPosition(ScreenWidth / 2, ScreenHeight / 2);
     m_sprite.setPosition(getPosition());
 	m_pWeapon->setActive(false);
-	m_health = PlayerStartHealth;
-	// m_playerDamageClock.restart(); --> is this necessary?
+	if (isFullReset)
+		m_health = PlayerStartHealth;
     return true;
 }
 
@@ -63,9 +64,18 @@ void Player::attack()
 	{
     	m_pWeapon->setActive(true);
 		m_attackCooldown = PlayerAttackCooldown;
-		m_hitSound.setBuffer(*m_pGame->getPlayerAttackMissBuff());
+		m_hitSound.setBuffer(*m_pGame->getPlayerAttackBuff());
 		m_hitSound.play();
 	}
+}
+
+void Player::handleBlinking()
+{
+	if (m_blinkTimer.getElapsedTime().asSeconds() < PlayerBlinkInterval)
+		return ;
+
+	m_isVisible = m_isVisible ? false : true;
+	m_blinkTimer.restart();
 }
 
 void Player::update(float deltaTime)
@@ -73,7 +83,6 @@ void Player::update(float deltaTime)
     sf::Vector2f weaponSize = m_pWeapon->getSize();
 
     m_sprite.setPosition(getPosition());
-
 	if (m_direction != m_facingDirection && (m_direction == LEFT || m_direction == RIGHT))
 	{
 		m_facingDirection = m_direction;
@@ -88,6 +97,12 @@ void Player::update(float deltaTime)
 			m_sprite.setScale(-3.5f, 3.5f);
 		}
 	}
+
+	if (m_playerDamageClock.getElapsedTime().asSeconds() < PlayerDamageCooldown)
+		handleBlinking();
+	else if (!m_isVisible)
+		m_isVisible = true;
+
     m_pWeapon->setPosition(sf::Vector2f(
         getCenter().x - (m_facingDirection == LEFT ? weaponSize.x : 0.0f),
         getCenter().y - weaponSize.y / 2.0f));
@@ -98,17 +113,28 @@ void Player::update(float deltaTime)
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-    Rectangle::draw(target, states);
-    m_pWeapon->draw(target, states);
+	if (m_isVisible)
+	{
+		Rectangle::draw(target, states);
+		m_pWeapon->draw(target, states);
+	}
 }
 
-void Player::takeDamage()
+// Return true = player took a hit, return false = player was invulnerable
+bool Player::takeDamage()
 {
 	if (m_playerDamageClock.getElapsedTime().asSeconds() > PlayerDamageCooldown)
 	{
 		m_health--;
 		m_playerDamageClock.restart();
+		m_blinkTimer.restart();
+		m_isVisible = false;
+		m_takeDmgSound.setBuffer(*m_pGame->getPlayerTakeDamageBuff());
+		m_takeDmgSound.play();
 		if (m_health == 0)
 			m_isDead = true;
+		return true;
 	}
+
+	return false;
 }

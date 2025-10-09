@@ -11,7 +11,9 @@ Level::Level(Game* gamePtr, unsigned int levelId, VampireLevelData& vampireData)
 	m_levelId(levelId),
 	m_vampireData(vampireData),
 	m_levelInfoBox(gamePtr),
-	m_scoreInfo(gamePtr)
+	m_scoreInfo(gamePtr),
+	m_healthBox(gamePtr)
+
 {
 	m_vampireHandler = std::make_unique<VampireHandler>(gamePtr, *gamePtr->getVampireTexture(), vampireData.vampireSpawnRate);
 
@@ -23,6 +25,8 @@ Level::Level(Game* gamePtr, unsigned int levelId, VampireLevelData& vampireData)
 		std::to_string(m_vampireData.greenVampireCount) + "  green vampires",
 		std::to_string(m_vampireData.bossVampireCount) + "  boss vampires",
 	};
+
+	// initInfoBoxes()
 	m_levelInfoBox.setFontSize(23.f);
 	m_levelInfoBox.setText(infoText);
 	m_levelInfoBox.setColor(sf::Color(242, 134, 39, 200));
@@ -30,6 +34,9 @@ Level::Level(Game* gamePtr, unsigned int levelId, VampireLevelData& vampireData)
 	float infoX = ScreenWidth / 2 - instructionSize.x / 2;
 	float infoY = ScreenHeight * 0.6;
 	m_levelInfoBox.setPosition({infoX, infoY});
+
+	m_healthBox.setFontSize(23.f);
+
 }
 
 void Level::handleInput(InputData& inputData)
@@ -45,7 +52,7 @@ void Level::update(float deltaTime)
 	if (!m_levelCanStart)
 		return ;
 
-	updateScoreInfo();
+	updateInfoBoxes();
     m_pGame->getPlayer()->update(deltaTime);
 	m_vampireHandler->vampireSpawner(deltaTime, m_vampireData);
     m_vampireHandler->update(deltaTime, m_pGame->getState());
@@ -58,17 +65,31 @@ void Level::update(float deltaTime)
 
 }
 
-void Level::updateScoreInfo()
+void Level::updateInfoBoxes()
 {
 	m_scoreInfo.setText(
 		{"Your coins:  " + std::to_string(m_pGame->getCoins()),
-		"Vampires left: " + std::to_string(m_vampireData.whiteVampireCount),
-		"Lives left: " + std::to_string(m_pGame->getPlayer()->getHealth())}
+		"Vampires left: " + std::to_string(m_vampireData.whiteVampireCount)}
 	);
 	m_scoreInfo.setColor(sf::Color(242, 134, 39, 180));
 	auto scoreInfoSize = m_scoreInfo.getSize();
 	float infoX = ScreenWidth / 2 - scoreInfoSize.x / 2;
 	m_scoreInfo.setPosition({infoX, 0});
+
+	std::vector<std::string> infoText = {
+		"Health remaining",
+		"",
+		""
+	};
+	m_healthBox.setText(infoText);
+	m_healthBox.setColor(sf::Color(242, 134, 39, 200));
+	m_healthBox.setPosition({0, 0});
+
+	// Health icon logic (own function later) CHANGE LOCATION
+	m_healthIcon.setOutlineColor(sf::Color::Black);
+	m_healthIcon.setOutlineThickness(2.f);
+	m_healthIcon.setSize({25.f, 25.f});
+
 }
 
 void Level::render(sf::RenderTarget& target, sf::RenderStates& states)
@@ -84,7 +105,33 @@ void Level::render(sf::RenderTarget& target, sf::RenderStates& states)
 		m_scoreInfo.render(target, states);
 		m_pGame->getPlayer()->draw(target, states);	
 		m_vampireHandler->drawVampires(target, states);
+		m_healthBox.render(target, states);
+
+		// OWN SEPARATE FUNCTION
+		float padding = 30.f;
+		float gap = 15.f;
+		float startX = m_healthBox.getPosition().x + padding;
+		float posY = m_healthBox.getPosition().y + m_healthBox.getSize().y - padding - m_healthIcon.getSize().y;
+
+		for (int i = 0; i < 3; ++i)
+		{
+			if (m_pGame->getPlayer()->getHealth() > i)
+				m_healthIcon.setFillColor(sf::Color::Red);
+			else
+				m_healthIcon.setFillColor(sf::Color::Black);
+
+			m_healthIcon.setPosition({startX, posY});
+			target.draw(m_healthIcon);
+			startX += gap + m_healthIcon.getSize().y;
+		}
 	}
+
+
+}
+
+void Level::drawHealthIcons(sf::RenderTarget &target, sf::RenderStates states)
+{
+
 }
 
 void Level::renderIntroScreen(sf::RenderTarget& target, sf::RenderStates& states)

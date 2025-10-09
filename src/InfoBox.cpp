@@ -13,14 +13,24 @@ void InfoBox::setText(std::vector<std::string> texts)
 	m_textVec = texts;
 
 	size_t maxSize = 0;
+	std::string maxLenStr;
 	for (auto& text : m_textVec)
 	{
 		size_t textSize = text.size();
 		if (textSize > maxSize)
+		{
 			maxSize = textSize;
+			maxLenStr = text;
+		}
 	}
 
-	m_size.x = maxSize * (m_fontSize / 2);
+	sf::Text tempText;
+    tempText.setFont(*m_font);
+    tempText.setCharacterSize(m_fontSize);
+	tempText.setString(maxLenStr);
+
+	m_size.x = tempText.getLocalBounds().width + 40.f;
+	m_lineHeight = tempText.getLocalBounds().height + 5.f;
 	m_size.y = m_textVec.size() * m_lineHeight + 40.f;
 }
 

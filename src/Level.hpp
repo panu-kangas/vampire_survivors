@@ -20,18 +20,23 @@ class Level : public GameState
 	void update(float deltaTime);
     void render(sf::RenderTarget& target, sf::RenderStates& states);
 	void renderIntroScreen(sf::RenderTarget& target, sf::RenderStates& states);
-	void updateScoreInfo();
+	void updateInfoBoxes();
 
 	bool isLevelPassed() const { return m_isLevelPassed; };
 
 	private:
+
+	void drawHealthIcons(sf::RenderTarget &target, sf::RenderStates states);
 
 	bool m_levelCanStart = false;
 	bool m_isLevelPassed = false;
 	unsigned int m_levelId;
 	VampireLevelData m_vampireData;
 	std::unique_ptr<VampireHandler> m_vampireHandler;
+
 	InfoBox m_levelInfoBox;
 	InfoBox m_scoreInfo;
+	InfoBox m_healthBox;
+	sf::RectangleShape m_healthIcon;
 
 };

@@ -22,10 +22,6 @@ Game::Game() :
     m_pPlayer(std::make_unique<Player>(this))
 {
     m_pGameInput = std::make_unique<GameInput>(this, m_pPlayer.get());
-	m_pStartScreen = std::make_unique<StartScreen>(this);
-	m_pEndScreen = std::make_unique<EndScreen>(this);
-	m_levelHandler = std::make_unique<LevelHandler>(this);
-
 }
 
 Game::~Game()
@@ -63,14 +59,18 @@ bool Game::initialise()
 		std::cerr << "Failed to load music!" << std::endl;
 		return false;
 	}
-	if (!m_playerAttackMissBuff.loadFromFile("assets/player_attack_miss.ogg")) {
+	if (!m_playerAttackBuff.loadFromFile("assets/player_attack.ogg")) {
 		std::cerr << "Failed to load SFX for player attack miss!" << std::endl;
 		return false;
 	}
-	if (!m_playerAttackHitBuff.loadFromFile("assets/player_attack_hit.ogg")) {
+	if (!m_playerTakeDamageBuff.loadFromFile("assets/player_take_damage.ogg")) {
 		std::cerr << "Failed to load SFX for player attack hit!" << std::endl;
 		return false;
 	}
+
+	m_pStartScreen = std::make_unique<StartScreen>(this);
+	m_pEndScreen = std::make_unique<EndScreen>(this);
+	m_levelHandler = std::make_unique<LevelHandler>(this);
 
 	m_backgroundMusic.setLoop(true);
 	m_backgroundMusic.setVolume(50.f);
@@ -90,7 +90,7 @@ void Game::resetGame()
 {
 	m_levelHandler->initNewLevel(1);
 	m_coinCount = 0;
-    m_pPlayer->initialise();
+    m_pPlayer->initialise(true);
 }
 
 void Game::update(float deltaTime)

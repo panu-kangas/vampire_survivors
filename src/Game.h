@@ -36,7 +36,6 @@ public:
     
     bool initialise();
     void update(float deltaTime);
-	void updateScoreInfo();
     void resetGame();
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
@@ -54,8 +53,8 @@ public:
     sf::Texture* getPlayerTexture() { return &m_playerTexture; }
 	sf::Texture* getVampireTexture() { return &m_vampTexture; }
 	sf::Sprite*   getFloorSprite() { return &m_floorSprite; };
-	sf::SoundBuffer* getPlayerAttackHitBuff() { return &m_playerAttackHitBuff; };
-	sf::SoundBuffer* getPlayerAttackMissBuff() { return &m_playerAttackMissBuff; };
+	sf::SoundBuffer* getPlayerAttackBuff() { return &m_playerAttackBuff; };
+	sf::SoundBuffer* getPlayerTakeDamageBuff() { return &m_playerTakeDamageBuff; };
 
 private:
     std::unique_ptr<Player> m_pPlayer;
@@ -75,7 +74,7 @@ private:
 	sf::Sprite 	m_floorSprite;
 
 	sf::Music m_backgroundMusic;
-	sf::SoundBuffer m_playerAttackMissBuff;
-	sf::SoundBuffer m_playerAttackHitBuff;
+	sf::SoundBuffer m_playerAttackBuff;
+	sf::SoundBuffer m_playerTakeDamageBuff;
 
 };

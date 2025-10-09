@@ -22,6 +22,7 @@ class InfoBox
 	void setText(std::vector<std::string> texts);
 
 	sf::Vector2f getSize() { return m_size; };
+	sf::Vector2f getPosition() { return m_position; };
 
 	private:
 

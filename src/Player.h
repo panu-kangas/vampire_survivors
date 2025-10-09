@@ -3,6 +3,7 @@
 #include "Rectangle.h"
 #include "Weapon.h"
 #include "Constants.h"
+#include "InfoBox.hpp"
 
 #include <memory>
 #include <SFML/Audio.hpp>
@@ -24,7 +25,7 @@ public:
     Player(Game* pGame);
     virtual ~Player() {}
     
-    bool initialise();
+    bool initialise(bool isFullReset = false);
     void move(InputData inputData, float deltaTime);
     void attack();
     void update(float deltaTime);
@@ -32,19 +33,24 @@ public:
 
     bool isDead() const { return m_isDead; }
     void setIsDead(bool isDead) { m_isDead = isDead; }
-	void takeDamage();
+	bool takeDamage();
+	void handleBlinking();
 
     Weapon* getWeapon() { return m_pWeapon.get(); }
 	int	getHealth() { return m_health; };
 
 private:
+
     bool    m_isDead = false;
+	bool	m_isVisible = true;
 	float	m_attackCooldown = 0.0f;
 	int		m_health = PlayerStartHealth;
 	sf::Clock m_playerDamageClock;
+	sf::Clock m_blinkTimer;
     eDirection m_direction = LEFT;
 	eDirection m_facingDirection = LEFT;
     Game*   m_pGame;
     std::unique_ptr<Weapon> m_pWeapon;
 	sf::Sound m_hitSound;
+	sf::Sound m_takeDmgSound;
 };
