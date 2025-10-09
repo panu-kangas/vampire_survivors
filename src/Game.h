@@ -46,6 +46,7 @@ public:
     void onKeyPressed(sf::Keyboard::Key key);
     void onKeyReleased(sf::Keyboard::Key key);
 	bool isEnterPressed();
+	bool hasLevelStarted();
 
 	int&	getCoins() { return m_coinCount; };
     Player* getPlayer() const;

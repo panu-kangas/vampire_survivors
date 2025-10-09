@@ -189,3 +189,8 @@ bool Game::isEnterPressed()
 {
 	return m_pGameInput->isEnterPressed();
 }
+
+bool Game::hasLevelStarted()
+{
+	return m_levelHandler->hasLevelStarted();
+}

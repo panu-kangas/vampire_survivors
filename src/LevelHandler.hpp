@@ -22,7 +22,7 @@ class LevelHandler
 	void update(float deltaTime, InputData& inputData);
     void render(sf::RenderTarget& target, sf::RenderStates& states);
 
-
+	bool hasLevelStarted() { return m_curLevelPtr->hasLevelStarted(); };
 
 	private:
 

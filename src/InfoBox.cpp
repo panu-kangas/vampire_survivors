@@ -8,6 +8,22 @@ InfoBox::InfoBox(Game* gamePtr)
 	m_font = gamePtr->getFont();
 }
 
+/*
+void InfoBox::setIcons(std::vector<sf::Sprite> icons)
+{
+	m_iconVec = icons;
+
+	float width = 0;
+	for (auto& icon : icons)
+	{
+		width += icon.getLocalBounds().width;
+	}
+	width += 40.f; // padding
+
+	if (m_size.x < width)
+		m_size.x = width;
+} */
+
 void InfoBox::setText(std::vector<std::string> texts)
 {
 	m_textVec = texts;

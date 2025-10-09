@@ -1,7 +1,7 @@
 #pragma once
 
 const int ScreenWidth = 1400;
-const int ScreenHeight = 1000;
+const int ScreenHeight = 950;
 
 const float PlayerHeight = 55.0f;
 const float PlayerWidth = 55.0f;
