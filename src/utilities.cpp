@@ -1,6 +1,8 @@
 #include "utilities.hpp"
 #include "Rectangle.h"
 #include "Constants.h"
+#include <sstream>
+#include <iomanip>
 
 void drawText(sf::RenderTarget &target, sf::Font font, std::string text)
 {
@@ -73,4 +75,11 @@ bool isVampireDataEmpty(VampireLevelData& vampireData)
 		return true;
 	}
 	return false;
+}
+
+std::string floatToString(float value, int precision) 
+{
+    std::ostringstream ss;
+    ss << std::fixed << std::setprecision(precision) << value;
+    return ss.str();
 }

@@ -1,5 +1,4 @@
 #include "Weapon.h"
-#include "Constants.h"
 
 Weapon::Weapon() : Rectangle(sf::Vector2f(0, 0))
 {
@@ -13,7 +12,7 @@ void Weapon::setActive(bool isActive)
     m_isActive = isActive;
     if (isActive)
     {
-        setSize(sf::Vector2f(WeaponWidth, WeaponHeight));
+        setSize(sf::Vector2f(m_weaponLength, WeaponHeight));
         m_timer = WeaponActiveTime;
     }
     else

@@ -23,6 +23,8 @@ class Button
 	sf::Vector2f getSize() { return m_size; };
 
 	void setPosition(sf::Vector2f newPos) { m_position = newPos; };
+	void setToActive() { m_isActive = true; };
+	void updateFontSize(float newSize);
 
 	private:
 
@@ -35,6 +37,9 @@ class Button
 	sf::Vector2f m_size = {100.f, 100.f};
 	sf::Vector2f m_position = {0, 0};
 	sf::Color m_bgColor = sf::Color::Red;
+	sf::Clock m_pressClock;
+
+	sf::Color m_darkColor = sf::Color(2, 107, 16); // TEST
 
 
 };

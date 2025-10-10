@@ -26,10 +26,13 @@ void UpgradeShop::handleInput(InputData& inputData)
 	{
 		m_isReady = true;
 	}
+
+	m_lanceUpgrade.handleInput(inputData);
 }
 
 void UpgradeShop::update(float deltaTime)
 {
+	m_lanceUpgrade.update(deltaTime);
 }
 
 void UpgradeShop::render(sf::RenderTarget& target, sf::RenderStates& states)

@@ -12,6 +12,7 @@ StartScreen::StartScreen(Game* gamePtr) : GameState(gamePtr), m_instructionBox(g
 	m_pVampireHandler = std::make_unique<VampireHandler>(m_pGame, *m_pGame->getVampireTexture(), 2.0f);
 
 	std::vector<std::string> infoText {
+		"",
 		"You are being attacked by terrifying swarms of blood thirsty Vampires.",
 		"Defeat them in order to survive!",
 		"",
