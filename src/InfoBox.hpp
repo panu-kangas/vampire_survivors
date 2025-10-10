@@ -15,11 +15,14 @@ class InfoBox
 	virtual ~InfoBox() = default;
 	
 	void render(sf::RenderTarget& target, sf::RenderStates& states) const;
+	void initInfoBox(std::vector<std::string> texts, float fontSize, sf::Color bgColor);
 
-	void setColor(sf::Color color) { m_bgColor = color; };
 	void setPosition(sf::Vector2f position) { m_position = position; };
-	void setFontSize(float fontSize) { m_fontSize = fontSize; };
 	void setText(std::vector<std::string> texts);
+	void setSize(sf::Vector2f newSize) { m_size = newSize; };
+	void centerText() { m_isTextCentered = true; };
+//	void setFontSize(float fontSize) { m_fontSize = fontSize; };
+//	void setColor(sf::Color color) { m_bgColor = color; };
 //	void setIcons(std::vector<sf::Sprite> icons);
 
 	sf::Vector2f getSize() { return m_size; };
@@ -32,6 +35,7 @@ class InfoBox
 //	std::vector<sf::Sprite> m_iconVec;
 	float 	m_lineHeight = 30.f;
 	float	m_fontSize = 30.f;
+	bool 	m_isTextCentered = false;
 	sf::Vector2f m_size = {100.f, 100.f};
 	sf::Vector2f m_position;
 	sf::Font*	m_font;

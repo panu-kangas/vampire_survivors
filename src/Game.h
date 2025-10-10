@@ -7,7 +7,7 @@
 #include <SFML/Audio.hpp>
 #include <memory>
 #include "Constants.h"
-#include "InfoBox.hpp"
+#include "InputHandler.h"
 
 class Player;
 class Game;
@@ -56,6 +56,7 @@ public:
 	sf::Sprite*   getFloorSprite() { return &m_floorSprite; };
 	sf::SoundBuffer* getPlayerAttackBuff() { return &m_playerAttackBuff; };
 	sf::SoundBuffer* getPlayerTakeDamageBuff() { return &m_playerTakeDamageBuff; };
+	InputData& getInputData() { return m_pGameInput->getInputData(); };
 
 private:
     std::unique_ptr<Player> m_pPlayer;

@@ -8,21 +8,12 @@ InfoBox::InfoBox(Game* gamePtr)
 	m_font = gamePtr->getFont();
 }
 
-/*
-void InfoBox::setIcons(std::vector<sf::Sprite> icons)
+void InfoBox::initInfoBox(std::vector<std::string> texts, float fontSize, sf::Color bgColor)
 {
-	m_iconVec = icons;
-
-	float width = 0;
-	for (auto& icon : icons)
-	{
-		width += icon.getLocalBounds().width;
-	}
-	width += 40.f; // padding
-
-	if (m_size.x < width)
-		m_size.x = width;
-} */
+	m_fontSize = fontSize;
+	m_bgColor = bgColor;
+	this->setText(texts);
+}
 
 void InfoBox::setText(std::vector<std::string> texts)
 {
@@ -74,7 +65,8 @@ void InfoBox::render(sf::RenderTarget& target, sf::RenderStates& states) const
 	for (auto& line : m_textVec)
 	{
 		text.setString(line);
-		text.setPosition(m_position.x + 20.f, m_position.y + curRow * m_lineHeight + 10.f); // Padding
+		float textX = m_isTextCentered ? m_position.x + m_size.x / 2 - text.getLocalBounds().width / 2 : m_position.x + 20.f;
+		text.setPosition(textX, m_position.y + curRow * m_lineHeight + 10.f); // Padding
 		target.draw(text);
 		curRow++;
 	}

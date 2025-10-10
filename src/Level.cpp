@@ -25,12 +25,18 @@ Level::Level(Game* gamePtr, unsigned int levelId, VampireLevelData& vampireData)
 		"",
 	};
 
-	m_healthBox.setFontSize(23.f);
-
+	m_healthBox.initInfoBox(infoText, 23.f, sf::Color(242, 134, 39, 200));
+	m_healthBox.setPosition({0, 0});
+	m_scoreInfo.initInfoBox({"Your coins:  " + std::to_string(m_pGame->getCoins())}, 23.f, sf::Color(242, 134, 39, 180));
 }
 
 void Level::handleInput(InputData& inputData)
 {
+	if (m_levelCanStart && inputData.m_space && !inputData.m_spaceHold)
+    {
+        m_pGame->getPlayer()->attack();
+		inputData.m_spaceHold = true;
+    }
 	if (m_pGame->isEnterPressed())
 	{
 		m_levelCanStart = true;
@@ -43,7 +49,10 @@ void Level::update(float deltaTime)
 		return ;
 
 	updateInfoBoxes();
-    m_pGame->getPlayer()->update(deltaTime);
+
+	Player* player = m_pGame->getPlayer();
+    player->update(deltaTime);
+	player->move(m_pGame->getInputData(), deltaTime);
 	m_vampireHandler->vampireSpawner(deltaTime, m_vampireData);
     m_vampireHandler->update(deltaTime, m_pGame->getState());
 
@@ -58,7 +67,6 @@ void Level::update(float deltaTime)
 void Level::updateInfoBoxes()
 {
 	m_scoreInfo.setText({"Your coins:  " + std::to_string(m_pGame->getCoins())});
-	m_scoreInfo.setColor(sf::Color(242, 134, 39, 180));
 	auto scoreInfoSize = m_scoreInfo.getSize();
 	float infoX = ScreenWidth / 2 - scoreInfoSize.x / 2;
 	m_scoreInfo.setPosition({infoX, 0});
@@ -69,8 +77,6 @@ void Level::updateInfoBoxes()
 		""
 	};
 	m_healthBox.setText(infoText);
-	m_healthBox.setColor(sf::Color(242, 134, 39, 200));
-	m_healthBox.setPosition({0, 0});
 
 	// Health icon logic (own function later) CHANGE LOCATION
 	m_healthIcon.setOutlineColor(sf::Color::Black);
@@ -123,7 +129,6 @@ void Level::renderIntroScreen(sf::RenderTarget& target, sf::RenderStates& states
 {
 	sf::Font* font = m_pGame->getFont();
 	drawHeaderText(target, *font, "Level " + std::to_string(m_levelId));
-	drawCenteredText(target, *font, "Press Enter to start the level");
 	m_vampireInfoBox.render(target, states);
 }
 

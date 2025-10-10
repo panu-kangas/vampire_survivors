@@ -4,10 +4,10 @@
 #include "GameState.hpp"
 #include "VampireHandler.hpp"
 #include "VampireInfoBox.hpp"
+#include "InfoBox.hpp"
 #include <memory>
 
 class Game;
-class InfoBox;
 
 class Level : public GameState
 {
@@ -17,9 +17,9 @@ class Level : public GameState
 	Level(Game* gamePtr, unsigned int levelId, VampireLevelData& vampireData);
 	~Level() = default;
 
-	void handleInput(InputData& inputData);
-	void update(float deltaTime);
-    void render(sf::RenderTarget& target, sf::RenderStates& states);
+	void handleInput(InputData& inputData) override;
+	void update(float deltaTime) override;
+    void render(sf::RenderTarget& target, sf::RenderStates& states) override;
 	void renderIntroScreen(sf::RenderTarget& target, sf::RenderStates& states);
 	void updateInfoBoxes();
 

@@ -28,6 +28,6 @@ class StartScreen : public GameState {
 	bool m_isReady = false;
 
 	std::unique_ptr<VampireHandler> m_pVampireHandler;
-	InfoBox instructionBox;
+	InfoBox m_instructionBox;
 
 };

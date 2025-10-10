@@ -2,6 +2,7 @@
 
 #include "DataStructs.hpp"
 #include "GameState.hpp"
+#include "UpgradeShop.hpp"
 #include "Level.hpp"
 #include <array>
 #include <memory>
@@ -35,7 +36,9 @@ class LevelHandler
 		{6, {50, 40, 20, 1, 0.8f}},
 	}};
 	std::unique_ptr<Level> m_curLevelPtr;
+	std::unique_ptr<UpgradeShop> m_pUpgradeShop;
 	unsigned int m_curLevelId = 1;
+	bool m_isShopActive = true;
 	Game* m_pGame;
 
 };

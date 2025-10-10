@@ -17,16 +17,6 @@ GameInput::~GameInput()
 
 void GameInput::update(float deltaTime)
 {
-    if (m_inputData.hasInputs())
-    {
-        m_pPlayer->move(m_inputData, deltaTime);
-    }
-
-    if (m_inputData.m_space && !m_inputData.m_spaceHold)
-    {
-        m_pPlayer->attack();
-		m_inputData.m_spaceHold = true;
-    }
 }
 
 void GameInput::onKeyPressed(sf::Keyboard::Key key)
