@@ -80,9 +80,6 @@ bool RedVampire::update(float deltaTime)
 		m_dirChangeTimer.restart();
 	}
 
-	// std::cout << "Red vamp curDir: x = " << m_curDir.x << ", y = " << m_curDir.y << "/n";
-	// std::cout << "DeltaTime: " << deltaTime << "\n";
-
     sf::Transformable::move(m_curDir * RedVampireSpeed * deltaTime);
     m_sprite.setPosition(getPosition());
 

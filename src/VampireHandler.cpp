@@ -33,8 +33,6 @@ VampireTypes VampireHandler::getVampireType(VampireLevelData& vampireData)
 
 	int roll = rand() % totalVampires;
 
-	// std::cout << "Roll is: " << roll << "\n";
-
 	int idx = 0;
 	for (int i = 0; i < vampireCounts.size(); ++i)
 	{
@@ -46,8 +44,6 @@ VampireTypes VampireHandler::getVampireType(VampireLevelData& vampireData)
 		}
 	}
 
-	// std::cout << "We got vampire type : " << vampireCounts[idx].first << "\n";
-
 	return vampireCounts[idx].first;
 }
 
@@ -57,7 +53,6 @@ void VampireHandler::addVampireToVec(sf::Vector2f& position, VampireTypes& type,
 	{
 		case WHITE_VAMPIRE:
 		{
-			// std::cout << "Case white vamp\n";
 			if (vampireData.whiteVampireCount > 0)
 			{
 				m_pVampires.push_back(std::make_unique<Vampire>(m_pGame, position));
@@ -68,7 +63,6 @@ void VampireHandler::addVampireToVec(sf::Vector2f& position, VampireTypes& type,
 
 		case RED_VAMPIRE:
 		{
-			// std::cout << "Case red vamp\n";
 			if (vampireData.redVampireCount > 0)
 			{
 				m_pVampires.push_back(std::make_unique<RedVampire>(m_pGame, position));

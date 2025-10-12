@@ -48,8 +48,16 @@ void InfoBox::render(sf::RenderTarget& target, sf::RenderStates& states) const
     sf::RectangleShape background(m_size);
     background.setPosition(m_position);
     background.setFillColor(m_bgColor);
-	background.setOutlineColor(sf::Color::Black);
-	background.setOutlineThickness(2.f);
+	if (m_isActive)
+	{
+		background.setOutlineColor(sf::Color::White);
+		background.setOutlineThickness(3.f);
+	}
+	else
+	{
+		background.setOutlineColor(sf::Color::Black);
+		background.setOutlineThickness(2.f);
+	}
     target.draw(background);
 
 	// Prepare text

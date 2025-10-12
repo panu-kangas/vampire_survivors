@@ -13,6 +13,7 @@ struct InputData
     bool m_movingLeft = false;
     bool m_movingRight = false;
 	bool m_enter = false;
+	bool m_enterHold = false;
     bool m_space = false;
     bool m_spaceHold = false;
 

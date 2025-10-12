@@ -1,5 +1,5 @@
 Working hours spent:
-20 h
+23 h
 
 
 BUG FIXES
@@ -32,4 +32,4 @@ ADDITIONS
 - Added health system with visual representation (blinking player when damage is taken + health amount box)
 - Added VampireInfoBox, which gives visual data on the vampires that are still left in the level.
 - Added Button class to create interactive UI elements.
-- Added Upgrade Shop, where player can spen Skill Points to make his weapons and attributes better (under construction)
+- Added Upgrade Shop, where player can spend Skill Points to make his weapons and attributes better

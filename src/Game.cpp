@@ -88,9 +88,9 @@ bool Game::initialise()
 
 void Game::resetGame()
 {
+    m_pPlayer->initialise(true);
 	m_levelHandler->initNewLevel(1);
 	m_coinCount = 0;
-    m_pPlayer->initialise(true);
 }
 
 void Game::update(float deltaTime)

@@ -73,14 +73,16 @@ void GameInput::onKeyReleased(sf::Keyboard::Key key)
 	else if (key == sf::Keyboard::Enter)
     {
         m_inputData.m_enter = false;
+		m_inputData.m_enterHold = false;
     }
 }
 
 bool GameInput::isEnterPressed()
 {
-	if (m_enterClock.getElapsedTime().asSeconds() > EnterCooldown && m_inputData.m_enter)
+	if (!m_inputData.m_enterHold && m_enterClock.getElapsedTime().asSeconds() > EnterCooldown && m_inputData.m_enter)
 	{
 		m_enterClock.restart();
+		m_inputData.m_enterHold = true;
 		return true;
 	}
 	return false;

@@ -1,13 +1,14 @@
 #include "Button.hpp"
 #include "Game.h"
 
-Button::Button(Game* gamePtr) : m_pGame(gamePtr)
+Button::Button(Game* gamePtr, eButtonType type) : m_pGame(gamePtr)
 {
 	m_font = m_pGame->getFont();
 	m_pressClock.restart();
+	m_type = type;
 }
 
-void Button::initButton(std::string text, sf::Color bgColor)
+void Button::initButton(std::string text, sf::Color bgColor, sf::Color darkBgColor)
 {
 	m_text.setFont(*m_font);
     m_text.setCharacterSize(m_fontSize);
@@ -18,10 +19,22 @@ void Button::initButton(std::string text, sf::Color bgColor)
 	m_text.setOrigin(bounds.left + bounds.width / 2.f, bounds.top + bounds.height / 2.f);
 	
 	m_bgColor = bgColor;
+	m_darkBgColor = darkBgColor;
 
 	m_size.x = m_text.getLocalBounds().width + 20.f;
 	m_size.y = m_text.getLocalBounds().height + 20.f;
 
+}
+
+bool Button::isPressed()
+{
+	if (!m_isPressed)
+		return false;
+	else
+	{
+		m_isPressed = false;
+		return true;
+	}
 }
 
 
@@ -60,7 +73,7 @@ void Button::render(sf::RenderTarget& target, sf::RenderStates& states)
     background.setPosition(m_position);
 
 	if (m_pressClock.getElapsedTime().asSeconds() < ButtonBlinkFXCooldown)
-    	background.setFillColor(m_darkColor);
+    	background.setFillColor(m_darkBgColor);
 	else
    		background.setFillColor(m_bgColor);
 	background.setOutlineColor(m_isActive ? sf::Color::White : sf::Color::Black);

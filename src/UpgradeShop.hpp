@@ -28,7 +28,7 @@ class UpgradeShop : public GameState
 	bool m_isReady = false;
 	VampireInfoBox m_vampireInfoBox;
 
-	UpgradeObject m_lanceUpgrade;
+	std::vector<std::unique_ptr<UpgradeObject>> m_upgradeObjectVec;
 
 	Button m_continueButton;
 };

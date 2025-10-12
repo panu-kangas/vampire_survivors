@@ -129,6 +129,7 @@ void Level::renderIntroScreen(sf::RenderTarget& target, sf::RenderStates& states
 {
 	sf::Font* font = m_pGame->getFont();
 	drawHeaderText(target, *font, "Level " + std::to_string(m_levelId));
+	drawCenteredText(target, *font, "Press Enter to start the level");
 	m_vampireInfoBox.render(target, states);
 }
 

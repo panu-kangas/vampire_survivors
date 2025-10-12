@@ -27,6 +27,9 @@ class InfoBox
 
 	sf::Vector2f getSize() { return m_size; };
 	sf::Vector2f getPosition() { return m_position; };
+	float getLineHeight() { return m_lineHeight; };
+	bool isActive() { return m_isActive; };
+	void changeActiveStatus() { m_isActive = !m_isActive; };
 
 	private:
 
@@ -36,6 +39,7 @@ class InfoBox
 	float 	m_lineHeight = 30.f;
 	float	m_fontSize = 30.f;
 	bool 	m_isTextCentered = false;
+	bool	m_isActive = false;
 	sf::Vector2f m_size = {100.f, 100.f};
 	sf::Vector2f m_position;
 	sf::Font*	m_font;

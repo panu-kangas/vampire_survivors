@@ -22,7 +22,9 @@ const float WeaponHeight = 10.0f;
 const float WeaponWidth = 100.0f;
 const float WeaponActiveTime = 0.25f;
 
-const float EnterCooldown = 0.5f;
+const float EnterCooldown = 0.1f;
 
-const float ButtonPressCooldown = 0.2f;
-const float ButtonBlinkFXCooldown = 0.15f;
+const float ButtonPressCooldown = 0.05f;
+const float ButtonBlinkFXCooldown = 0.05f;
+
+const int 	maxUpgradeLevel = 6;

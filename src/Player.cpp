@@ -8,7 +8,7 @@
 Player::Player(Game* pGame) :
     Rectangle(sf::Vector2f(PlayerWidth, PlayerHeight)),
     m_pGame(pGame),
-    m_pWeapon(std::make_unique<Weapon>())
+    m_pWeapon(std::make_unique<Weapon>("Lance"))
 {
     setOrigin(sf::Vector2f(0.0f, 0.0f));
 	m_playerDamageClock.restart();
@@ -27,7 +27,10 @@ bool Player::initialise(bool isFullReset)
     m_sprite.setPosition(getPosition());
 	m_pWeapon->setActive(false);
 	if (isFullReset)
+	{
 		m_health = PlayerStartHealth;
+		m_pWeapon->resetUpgrades();
+	}
     return true;
 }
 
