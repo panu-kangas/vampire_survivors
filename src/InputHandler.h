@@ -9,7 +9,9 @@ class Game;
 struct InputData
 {
     bool m_movingUp = false;
+	bool m_upHold = false;
     bool m_movingDown = false;
+	bool m_downHold = false;
     bool m_movingLeft = false;
     bool m_movingRight = false;
 	bool m_enter = false;
@@ -30,6 +32,8 @@ public:
     void onKeyPressed(sf::Keyboard::Key key);
     void onKeyReleased(sf::Keyboard::Key key);
 	bool isEnterPressed();
+	bool isDownPressed();
+	bool isUpPressed();
 	InputData& getInputData() { return m_inputData; };
 	
     

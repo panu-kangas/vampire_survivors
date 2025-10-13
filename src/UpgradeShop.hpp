@@ -29,6 +29,7 @@ class UpgradeShop : public GameState
 	VampireInfoBox m_vampireInfoBox;
 
 	std::vector<std::unique_ptr<UpgradeObject>> m_upgradeObjectVec;
+	size_t m_activeObjIndex = 0;
 
 	Button m_continueButton;
 };

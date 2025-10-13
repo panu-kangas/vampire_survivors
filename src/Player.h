@@ -35,15 +35,22 @@ public:
     void setIsDead(bool isDead) { m_isDead = isDead; }
 	bool takeDamage();
 	void handleBlinking();
+	void upgradeSpeed(float newSpeed, int newUpgradeLevel) { m_speed = newSpeed; m_upgradeLevel = newUpgradeLevel; }; 
 
     Weapon* getWeapon() { return m_pWeapon.get(); }
 	int	getHealth() { return m_health; };
+	float getSpeed() { return m_speed; };
+	int getUpgradeLevel() { return m_upgradeLevel; };
+	float getUpgradeScale() { return m_upgradeScale; };
 
 private:
 
     bool    m_isDead = false;
 	bool	m_isVisible = true;
 	float	m_attackCooldown = 0.0f;
+	float 	m_speed = PlayerSpeed;
+	int 	m_upgradeLevel = 1;
+	float 	m_upgradeScale = 10.f;
 	int		m_health = PlayerStartHealth;
 	sf::Clock m_playerDamageClock;
 	sf::Clock m_blinkTimer;

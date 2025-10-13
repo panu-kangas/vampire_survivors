@@ -8,50 +8,57 @@
 #include <iostream>
 
 
-UpgradeObject::UpgradeObject(Game* gamePtr, Weapon* weapon) : 
+UpgradeObject::UpgradeObject(Game* gamePtr, Weapon* weapon, float posY) : 
+	m_pGame(gamePtr),
 	m_backgroundBox(gamePtr),
 	m_plusButton(gamePtr, PLUS),
 	m_minusButton(gamePtr, MINUS),
 	m_pWeapon(weapon)
 {
 
-	m_upgradeValue = *m_pWeapon->getUpgradeValue();
-	m_upgradeLevelCount = m_pWeapon->getUpgradeLevel();
-	std::vector<std::string> infoText {
-		"Upgrade " + m_pWeapon->getName(),
-		"",
-		"",
-		floatToString(m_upgradeValue, 2)
-	};
+	if (!weapon)
+	{
+		m_upgradeValue = gamePtr->getPlayer()->getSpeed();
+		m_upgradeLevelCount = gamePtr->getPlayer()->getUpgradeLevel();
+	}
+	else
+	{
+		m_upgradeValue = *m_pWeapon->getUpgradeValue();
+		m_upgradeLevelCount = m_pWeapon->getUpgradeLevel();
+	}
 
-	m_backgroundBox.initInfoBox(infoText, 23.f, sf::Color(242, 134, 39, 200));
-	m_backgroundBox.setSize({400.f, 150.f});
-	m_backgroundBox.centerText();
+	m_backgroundBox.initInfoBox({}, 23.f, sf::Color(242, 134, 39, 200)); // Update handels text insertion
+	this->update(0.f); // No need for deltaTime in initial update call
 	float bgBoxX = ScreenWidth / 2 - m_backgroundBox.getSize().x / 2;
-	float bgBoxY = ScreenHeight * 0.3;
-	m_backgroundBox.setPosition({bgBoxX, bgBoxY});
+	m_backgroundBox.setPosition({bgBoxX, posY});
 
 	m_plusButton.initButton("+", sf::Color(14, 158, 33), sf::Color(2, 107, 16));
 	m_plusButton.updateFontSize(30.f);
 	float plusBtnX = m_backgroundBox.getPosition().x + m_backgroundBox.getSize().x * 0.8 - m_plusButton.getSize().x;
-	float plusBtnY = m_backgroundBox.getPosition().y + m_backgroundBox.getLineHeight() * 4 - 13.f;
+	float plusBtnY = m_backgroundBox.getPosition().y + m_backgroundBox.getSize().y * 0.5 + 10.f;
 	m_plusButton.setPosition({plusBtnX, plusBtnY});
 
 	m_minusButton.initButton("-", sf::Color(199, 39, 28), sf::Color(128, 12, 4));
 	m_minusButton.updateFontSize(30.f);
 	m_minusButton.setSize(m_plusButton.getSize());
 	float minusBtnX = m_backgroundBox.getPosition().x + m_backgroundBox.getSize().x * 0.2;
-	float minusBtnY = m_backgroundBox.getPosition().y + m_backgroundBox.getLineHeight() * 4 - 13.f;
+	float minusBtnY = m_backgroundBox.getPosition().y + m_backgroundBox.getSize().y * 0.5 + 10.f;
 	m_minusButton.setPosition({minusBtnX, minusBtnY});
 
-	m_minusButton.changeActiveStatus(); // Sets minus button active
 	m_activeButtonPtr = &m_minusButton; // IS THIS RISKY?
 
 }
 
 void UpgradeObject::handleUpgrade()
 {
-	m_pWeapon->handleUpgrade(m_upgradeValue, m_upgradeLevelCount);
+	if (!m_pWeapon)
+	{
+		m_pGame->getPlayer()->upgradeSpeed(m_upgradeValue, m_upgradeLevelCount);
+	}
+	else
+	{
+		m_pWeapon->handleUpgrade(m_upgradeValue, m_upgradeLevelCount);
+	}
 }
 
 void UpgradeObject::changeActiveStatus()
@@ -71,7 +78,6 @@ void UpgradeObject::changeActiveStatus()
 			m_activeButtonPtr = &m_minusButton;
 		}
 	}
-
 
 	m_isActive = !m_isActive;
 	m_backgroundBox.changeActiveStatus();
@@ -93,6 +99,8 @@ void UpgradeObject::changeActiveButton()
 
 void UpgradeObject::handleInput(InputData& inputData)
 {
+	if (!m_isActive)
+		return ;
 
 	if ((this->getActiveButtonType() == PLUS && inputData.m_movingLeft)
 		|| (this->getActiveButtonType() == MINUS && inputData.m_movingRight))
@@ -103,7 +111,16 @@ void UpgradeObject::handleInput(InputData& inputData)
 	m_plusButton.handleInput(inputData);
 	m_minusButton.handleInput(inputData);
 
-	float upgradeScale = m_pWeapon->getUpgradeScale();
+	float upgradeScale = 0;
+	if (!m_pWeapon)
+	{
+		upgradeScale = m_pGame->getPlayer()->getUpgradeScale();
+	}
+	else
+	{
+		upgradeScale = m_pWeapon->getUpgradeScale();
+	}
+	
 	if (m_upgradeLevelCount < maxUpgradeLevel && m_plusButton.isPressed())
 	{
 		m_upgradeValue += upgradeScale;
@@ -119,14 +136,15 @@ void UpgradeObject::handleInput(InputData& inputData)
 void UpgradeObject::update(float deltaTime)
 {
 
+	std::string upgradeName = !m_pWeapon ? "Upgrade Speed" : "Upgrade " + m_pWeapon->getName();
+
 	std::vector<std::string> infoText {
-		"Upgrade " + m_pWeapon->getName(),
-		"",
+		upgradeName,
 		"",
 		floatToString(m_upgradeValue, 2)
 	};
 	m_backgroundBox.setText(infoText);
-	m_backgroundBox.setSize({400.f, 150.f});
+	m_backgroundBox.setSize(m_size);
 	m_backgroundBox.centerText();
 
 	m_plusButton.update(deltaTime);
@@ -147,7 +165,7 @@ void UpgradeObject::drawUpgradeLevelBoxes(sf::RenderTarget& target)
 		if (i < m_upgradeLevelCount)
 			tempRect.setFillColor(sf::Color::Green);
 		else
-			tempRect.setFillColor(sf::Color::Red);
+			tempRect.setFillColor(sf::Color::Black);
 
 		tempRect.setPosition(startX, posY);
 		startX += tempRect.getSize().x + boxGap;

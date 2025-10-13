@@ -14,8 +14,13 @@ UpgradeShop::UpgradeShop(Game* gamePtr, VampireLevelData& vampireData) :
 	m_continueButton.initButton("Continue to next level", sf::Color(14, 158, 33), sf::Color(2, 107, 16));
 	m_continueButton.setPosition({ScreenWidth / 2 - m_continueButton.getSize().x / 2, ScreenHeight * 0.85});
 
-	m_upgradeObjectVec.push_back(std::make_unique<UpgradeObject>(gamePtr, m_pGame->getPlayer()->getWeapon()));
+	float boxY = ScreenHeight * 0.4;
+	m_upgradeObjectVec.push_back(std::make_unique<UpgradeObject>(gamePtr, m_pGame->getPlayer()->getWeapon(), boxY));
 	m_upgradeObjectVec[0]->changeActiveStatus();
+
+	float gap = 20.f;
+	float box2Y = boxY + m_upgradeObjectVec[0]->getSize().y + gap;
+	m_upgradeObjectVec.push_back(std::make_unique<UpgradeObject>(gamePtr, nullptr, box2Y));
 
 }
 
@@ -26,16 +31,24 @@ void UpgradeShop::initShop()
 
 void UpgradeShop::handleInput(InputData& inputData)
 {
-
-	if (m_upgradeObjectVec[0]->isActive() && inputData.m_movingDown)
+	size_t maxIndex = m_upgradeObjectVec.size() - 1;
+	if ((m_activeObjIndex == maxIndex && !m_continueButton.isActive() && m_pGame->isDownPressed())
+			|| (m_continueButton.isActive() && m_pGame->isUpPressed())) 
 	{
-		m_upgradeObjectVec[0]->changeActiveStatus();
+		m_upgradeObjectVec.back()->changeActiveStatus();
 		m_continueButton.changeActiveStatus();
 	}
-	else if (m_continueButton.isActive() && inputData.m_movingUp)
+	else if (m_activeObjIndex < maxIndex && m_pGame->isDownPressed())
 	{
-		m_continueButton.changeActiveStatus();
-		m_upgradeObjectVec[0]->changeActiveStatus();
+		m_upgradeObjectVec[m_activeObjIndex]->changeActiveStatus();
+		m_activeObjIndex++;
+		m_upgradeObjectVec[m_activeObjIndex]->changeActiveStatus();
+	}
+	else if (m_activeObjIndex > 0 && m_pGame->isUpPressed())
+	{
+		m_upgradeObjectVec[m_activeObjIndex]->changeActiveStatus();
+		m_activeObjIndex--;
+		m_upgradeObjectVec[m_activeObjIndex]->changeActiveStatus();
 	}
 
 	m_continueButton.handleInput(inputData);

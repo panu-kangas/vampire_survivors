@@ -51,7 +51,7 @@ VampireInfoBox::VampireInfoBox(Game* gamePtr, VampireLevelData& vampireData)
 	{
 		tempText.setString(std::to_string(m_vampireCountVec[i]));
 		tempText.setOrigin(tempText.getLocalBounds().width / 2, tempText.getLocalBounds().height / 2);
-		tempText.setPosition(m_iconVec[i].getPosition().x + m_iconVec[i].getLocalBounds().width + 10.f,  m_iconVec[i].getPosition().y - 5.f);
+		tempText.setPosition(m_iconVec[i].getPosition().x + m_iconVec[i].getLocalBounds().width + 15.f,  m_iconVec[i].getPosition().y - 5.f);
 		m_vampireCountTextVec.push_back(tempText);
 	}
 	

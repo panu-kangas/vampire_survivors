@@ -30,6 +30,8 @@ bool Player::initialise(bool isFullReset)
 	{
 		m_health = PlayerStartHealth;
 		m_pWeapon->resetUpgrades();
+		m_speed = PlayerSpeed;
+		m_upgradeLevel = 1;
 	}
     return true;
 }
@@ -39,12 +41,12 @@ void Player::move(InputData inputData, float deltaTime)
     float xSpeed = 0.0f;
     float ySpeed = 0.0f;
     
-    xSpeed -= inputData.m_movingLeft * PlayerSpeed;
-    xSpeed += inputData.m_movingRight * PlayerSpeed;
+    xSpeed -= inputData.m_movingLeft * m_speed;
+    xSpeed += inputData.m_movingRight * m_speed;
     xSpeed *= deltaTime;
 
-    ySpeed -= inputData.m_movingUp * PlayerSpeed;
-    ySpeed += inputData.m_movingDown * PlayerSpeed;
+    ySpeed -= inputData.m_movingUp * m_speed;
+    ySpeed += inputData.m_movingDown * m_speed;
     ySpeed *= deltaTime;
     
     sf::Transformable::move(sf::Vector2f(xSpeed, ySpeed));

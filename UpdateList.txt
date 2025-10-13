@@ -1,5 +1,5 @@
 Working hours spent:
-23 h
+24 h
 
 
 BUG FIXES
@@ -33,3 +33,4 @@ ADDITIONS
 - Added VampireInfoBox, which gives visual data on the vampires that are still left in the level.
 - Added Button class to create interactive UI elements.
 - Added Upgrade Shop, where player can spend Skill Points to make his weapons and attributes better
+- Added Lance and player speed updates to Upgrade Shop

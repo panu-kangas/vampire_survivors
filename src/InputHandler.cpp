@@ -52,10 +52,12 @@ void GameInput::onKeyReleased(sf::Keyboard::Key key)
     if (key == sf::Keyboard::Up)
     {
         m_inputData.m_movingUp = false;
+		m_inputData.m_upHold = false;
     }
     else if (key == sf::Keyboard::Down)
     {
         m_inputData.m_movingDown = false;
+		m_inputData.m_downHold = false;
     }
     else if (key == sf::Keyboard::Left)
     {
@@ -85,5 +87,27 @@ bool GameInput::isEnterPressed()
 		m_inputData.m_enterHold = true;
 		return true;
 	}
+	return false;
+}
+
+bool GameInput::isDownPressed()
+{
+	if (m_inputData.m_movingDown && !m_inputData.m_downHold)
+	{
+		m_inputData.m_downHold = true;
+		return true;
+	}
+
+	return false;
+}
+
+bool GameInput::isUpPressed()
+{
+	if (m_inputData.m_movingUp && !m_inputData.m_upHold)
+	{
+		m_inputData.m_upHold = true;
+		return true;
+	}
+
 	return false;
 }
