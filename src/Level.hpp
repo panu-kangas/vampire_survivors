@@ -23,7 +23,7 @@ class Level : public GameState
 	void renderIntroScreen(sf::RenderTarget& target, sf::RenderStates& states);
 	void updateInfoBoxes();
 
-	bool isLevelPassed() const { return m_isLevelPassed; };
+	bool isLevelReady() const { return m_isReady; };
 	bool hasLevelStarted() const { return m_levelCanStart; };
 
 	private:
@@ -32,6 +32,7 @@ class Level : public GameState
 
 	bool m_levelCanStart = false;
 	bool m_isLevelPassed = false;
+	bool m_isReady = false;
 	unsigned int m_levelId;
 	VampireLevelData m_vampireData;
 	std::unique_ptr<VampireHandler> m_vampireHandler;

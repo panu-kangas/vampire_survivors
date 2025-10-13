@@ -18,8 +18,11 @@ public:
 private:
 
 	void getNewDirection();
+	void handleBlinking();
 
 	sf::Clock m_dirChangeTimer;
+	sf::Clock m_stopTimer;
+	sf::Clock m_blinkTimer;
 	// Add "Rampage timer" here; Red Vampires will target player after certain time has passed
 	
 	sf::Vector2f m_curDir;

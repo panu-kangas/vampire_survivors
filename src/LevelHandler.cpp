@@ -34,9 +34,10 @@ void LevelHandler::update(float deltaTime, InputData& inputData)
 	m_curLevelPtr->handleInput(inputData);
 	m_curLevelPtr->update(deltaTime);
 
-	if (m_curLevelPtr->isLevelPassed())
+	if (m_curLevelPtr->isLevelReady())
 	{
 		m_curLevelId++;
+		m_pGame->getPlayer()->getSkillPoints() += 1;
 		initNewLevel(m_curLevelId);
 	}
 	else if (m_pGame->getPlayer()->isDead())

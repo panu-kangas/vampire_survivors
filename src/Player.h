@@ -38,10 +38,11 @@ public:
 	void upgradeSpeed(float newSpeed, int newUpgradeLevel) { m_speed = newSpeed; m_upgradeLevel = newUpgradeLevel; }; 
 
     Weapon* getWeapon() { return m_pWeapon.get(); }
-	int	getHealth() { return m_health; };
 	float getSpeed() { return m_speed; };
-	int getUpgradeLevel() { return m_upgradeLevel; };
 	float getUpgradeScale() { return m_upgradeScale; };
+	int	getHealth() { return m_health; };
+	int getUpgradeLevel() { return m_upgradeLevel; };
+	int& getSkillPoints() { return m_skillPoints; };
 
 private:
 
@@ -49,9 +50,10 @@ private:
 	bool	m_isVisible = true;
 	float	m_attackCooldown = 0.0f;
 	float 	m_speed = PlayerSpeed;
-	int 	m_upgradeLevel = 1;
 	float 	m_upgradeScale = 10.f;
+	int 	m_upgradeLevel = 1;
 	int		m_health = PlayerStartHealth;
+	int 	m_skillPoints = PlayerStartSkillPoints;
 	sf::Clock m_playerDamageClock;
 	sf::Clock m_blinkTimer;
     eDirection m_direction = LEFT;

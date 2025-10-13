@@ -10,13 +10,16 @@ const float PlayerAttackCooldown = 0.5f;
 const float PlayerDamageCooldown = 2.0f;
 const float PlayerBlinkInterval = 0.2f;
 const int	PlayerStartHealth = 3;
+const int	PlayerStartSkillPoints = 2;
 
 const float VampireHeight = 32.0f;
 const float VampireWidth = 32.0f;
 const float VampireSpeed = 120.0f;
 
-const float RedVampireSpeed = 220.0f;
-const float RedVampireDirChangeCooldown = 2.0f;
+const float RedVampireSpeed = 280.0f;
+const float RedVampireDirChangeCooldown = 4.0f;
+const float RedVampireStopCooldown = 2.0f;
+const float RedVampireBlinkInterval = 0.1f;
 
 const float WeaponHeight = 10.0f;
 const float WeaponWidth = 100.0f;

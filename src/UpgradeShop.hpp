@@ -27,6 +27,7 @@ class UpgradeShop : public GameState
 
 	bool m_isReady = false;
 	VampireInfoBox m_vampireInfoBox;
+	InfoBox m_skillPointInfoBox;
 
 	std::vector<std::unique_ptr<UpgradeObject>> m_upgradeObjectVec;
 	size_t m_activeObjIndex = 0;

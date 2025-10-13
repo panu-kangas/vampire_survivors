@@ -1,5 +1,5 @@
 Working hours spent:
-24 h
+26 h
 
 
 BUG FIXES
@@ -28,9 +28,10 @@ ADDITIONS
 - Added InfoBox class that allows more fluent UI generation --> Updated for better dynamical size
 - Added music and SFX
 - Added Level system, removed time-based survival idea
-- Added new enemy type (Red Vampire, sort of a kamikaze-enemy)
+- Added new enemy type (Red Vampire, sort of a kamikaze-enemy) --> Updated now to charge towards player
 - Added health system with visual representation (blinking player when damage is taken + health amount box)
 - Added VampireInfoBox, which gives visual data on the vampires that are still left in the level.
 - Added Button class to create interactive UI elements.
 - Added Upgrade Shop, where player can spend Skill Points to make his weapons and attributes better
 - Added Lance and player speed updates to Upgrade Shop
+- Added skill points to the UpgradeShop

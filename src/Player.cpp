@@ -32,6 +32,7 @@ bool Player::initialise(bool isFullReset)
 		m_pWeapon->resetUpgrades();
 		m_speed = PlayerSpeed;
 		m_upgradeLevel = 1;
+		m_skillPoints = PlayerStartSkillPoints;
 	}
     return true;
 }

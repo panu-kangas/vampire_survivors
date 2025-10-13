@@ -13,7 +13,7 @@ VampireHandler::VampireHandler(Game* pGame, sf::Texture& vampTexture, float vamp
 	m_vampTexture(vampTexture)
 {
 	m_vampireCooldown = vampireSpawnRate;
-	m_nextVampireCooldown = m_vampireCooldown;
+	m_nextVampireCooldown = 0;
 }
 
 VampireTypes VampireHandler::getVampireType(VampireLevelData& vampireData)

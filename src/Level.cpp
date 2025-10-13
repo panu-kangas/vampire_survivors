@@ -27,7 +27,7 @@ Level::Level(Game* gamePtr, unsigned int levelId, VampireLevelData& vampireData)
 
 	m_healthBox.initInfoBox(infoText, 23.f, sf::Color(242, 134, 39, 200));
 	m_healthBox.setPosition({0, 0});
-	m_scoreInfo.initInfoBox({"Your coins:  " + std::to_string(m_pGame->getCoins())}, 23.f, sf::Color(242, 134, 39, 180));
+	m_scoreInfo.initInfoBox({"Fight the vampires!"}, 23.f, sf::Color(242, 134, 39, 180));
 }
 
 void Level::handleInput(InputData& inputData)
@@ -37,9 +37,16 @@ void Level::handleInput(InputData& inputData)
         m_pGame->getPlayer()->attack();
 		inputData.m_spaceHold = true;
     }
-	if (m_pGame->isEnterPressed())
+
+	if (!m_levelCanStart && m_pGame->isEnterPressed())
 	{
 		m_levelCanStart = true;
+	}
+
+	if (m_isLevelPassed && m_pGame->isEnterPressed())
+	{
+		m_pGame->getPlayer()->initialise();
+		m_isReady = true;
 	}
 }
 
@@ -50,6 +57,9 @@ void Level::update(float deltaTime)
 
 	updateInfoBoxes();
 
+	if (m_isLevelPassed && !m_isReady)
+		return ;
+
 	Player* player = m_pGame->getPlayer();
     player->update(deltaTime);
 	player->move(m_pGame->getInputData(), deltaTime);
@@ -58,7 +68,6 @@ void Level::update(float deltaTime)
 
 	if (isVampireDataEmpty(m_vampireData) && m_vampireHandler->isVampireVecEmpty())
 	{
-		m_pGame->getPlayer()->initialise();
 		m_isLevelPassed = true;
 	}
 
@@ -66,7 +75,14 @@ void Level::update(float deltaTime)
 
 void Level::updateInfoBoxes()
 {
-	m_scoreInfo.setText({"Your coins:  " + std::to_string(m_pGame->getCoins())});
+	if (m_isLevelPassed && !m_isReady)
+	{
+		m_scoreInfo.setText({"You cleared the level, wohoo! Press enter to continue"});
+	}
+	else
+	{
+		m_scoreInfo.setText({"Fight the vampires!"});
+	}
 	auto scoreInfoSize = m_scoreInfo.getSize();
 	float infoX = ScreenWidth / 2 - scoreInfoSize.x / 2;
 	m_scoreInfo.setPosition({infoX, 0});

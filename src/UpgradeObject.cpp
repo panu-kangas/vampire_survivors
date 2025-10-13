@@ -121,15 +121,18 @@ void UpgradeObject::handleInput(InputData& inputData)
 		upgradeScale = m_pWeapon->getUpgradeScale();
 	}
 	
-	if (m_upgradeLevelCount < maxUpgradeLevel && m_plusButton.isPressed())
+	int& skillPoints = m_pGame->getPlayer()->getSkillPoints();
+	if (m_upgradeLevelCount < maxUpgradeLevel && skillPoints > 0 && m_plusButton.isPressed())
 	{
 		m_upgradeValue += upgradeScale;
 		m_upgradeLevelCount++;
+		skillPoints--;
 	}
 	else if (m_upgradeLevelCount > 1 && m_minusButton.isPressed())
 	{
 		m_upgradeValue -= upgradeScale;
 		m_upgradeLevelCount--;
+		skillPoints++;
 	}
 }
 

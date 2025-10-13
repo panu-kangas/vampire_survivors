@@ -13,6 +13,8 @@ RedVampire::RedVampire(Game* game, sf::Vector2f position) : Vampire(game, positi
 	m_sprite.setScale(2.3f, 2.3f);
 
 	m_dirChangeTimer.restart();
+	m_stopTimer.restart();
+	m_blinkTimer.restart();
 
 	getNewDirection();
 }
@@ -39,12 +41,21 @@ void RedVampire::getNewDirection()
 		return ;
 	}
 
-	sf::Vector2f randomPos;
-	randomPos.x = rand() % ScreenWidth;
-    randomPos.y = rand() % ScreenHeight;
+	sf::Vector2f playerCenter = m_pGame->getPlayer()->getCenter();
+    m_curDir = VecNormalized(playerCenter - getCenter());
 
-	m_curDir = VecNormalized(randomPos - getCenter());
 }
+
+void RedVampire::handleBlinking()
+{
+	if (m_blinkTimer.getElapsedTime().asSeconds() > RedVampireBlinkInterval)
+	{
+		sf::Color newColor = m_sprite.getColor() == sf::Color::Red ? sf::Color(247, 186, 186) : sf::Color::Red;
+		m_sprite.setColor(newColor);
+		m_blinkTimer.restart();
+	}
+}
+
 
 bool RedVampire::update(float deltaTime)
 {
@@ -78,10 +89,20 @@ bool RedVampire::update(float deltaTime)
 	{
 		getNewDirection();
 		m_dirChangeTimer.restart();
+		m_stopTimer.restart();
 	}
 
-    sf::Transformable::move(m_curDir * RedVampireSpeed * deltaTime);
-    m_sprite.setPosition(getPosition());
+	if (m_stopTimer.getElapsedTime().asSeconds() < RedVampireStopCooldown)
+	{
+		sf::Transformable::move(m_curDir * RedVampireSpeed * deltaTime);
+		m_sprite.setPosition(getPosition());
+	}
+
+	float timeUntilNewDirection = RedVampireDirChangeCooldown - m_dirChangeTimer.getElapsedTime().asSeconds();
+	if (timeUntilNewDirection < 1.f)
+		handleBlinking();
+
+	
 
 	return false;
 }
