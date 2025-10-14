@@ -5,6 +5,7 @@
 #include "VampireHandler.hpp"
 #include "VampireInfoBox.hpp"
 #include "InfoBox.hpp"
+#include "Projectile.hpp"
 #include <memory>
 
 class Game;
@@ -23,8 +24,12 @@ class Level : public GameState
 	void renderIntroScreen(sf::RenderTarget& target, sf::RenderStates& states);
 	void updateInfoBoxes();
 
+	void handleProjectiles(Player* player, float deltaTime);
+
 	bool isLevelReady() const { return m_isReady; };
 	bool hasLevelStarted() const { return m_levelCanStart; };
+
+	std::vector<Projectile>& getProjectileVec() { return m_projectileVec; };
 
 	private:
 
@@ -41,5 +46,7 @@ class Level : public GameState
 	InfoBox m_healthBox;
 	VampireInfoBox m_vampireInfoBox;
 	sf::RectangleShape m_healthIcon;
+
+	std::vector<Projectile> m_projectileVec;
 
 };

@@ -21,6 +21,13 @@ const float RedVampireDirChangeCooldown = 4.0f;
 const float RedVampireStopCooldown = 2.0f;
 const float RedVampireBlinkInterval = 0.1f;
 
+const float GreemVampireSpeed = 100.0f;
+const float GreenVampireDirChangeCooldown = 10.0f;
+const float GreenVampireTravelTime = 2.0f;
+const float GreenVampireShootTime = 1.0f;
+const float GreenVampireBulletSpeed = 200.f;
+const float GreenVampireBulletSize = 8.f;
+
 const float WeaponHeight = 10.0f;
 const float WeaponWidth = 100.0f;
 const float WeaponActiveTime = 0.25f;

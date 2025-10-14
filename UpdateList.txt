@@ -1,5 +1,5 @@
 Working hours spent:
-26 h
+28 h
 
 
 BUG FIXES
@@ -35,3 +35,4 @@ ADDITIONS
 - Added Upgrade Shop, where player can spend Skill Points to make his weapons and attributes better
 - Added Lance and player speed updates to Upgrade Shop
 - Added skill points to the UpgradeShop
+- Added third enemy type, Green Vampire, that can shoot projectiles

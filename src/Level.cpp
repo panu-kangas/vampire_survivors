@@ -50,6 +50,31 @@ void Level::handleInput(InputData& inputData)
 	}
 }
 
+void Level::handleProjectiles(Player* player, float deltaTime)
+{
+	for (auto& projectile : m_projectileVec)
+	{
+		projectile.update(deltaTime);
+		if (projectile.collidesWith(player))
+		{
+			player->takeDamage();
+			projectile.setAsDestroyed();
+		}
+	}
+
+	int i = 0;
+    while (i < m_projectileVec.size())
+    {
+        if (m_projectileVec[i].isDestroyed())
+        {
+            std::swap(m_projectileVec[i], m_projectileVec.back());
+            m_projectileVec.pop_back();
+            continue;
+        }
+        i++;
+    }
+}
+
 void Level::update(float deltaTime)
 {
 	if (!m_levelCanStart)
@@ -65,6 +90,8 @@ void Level::update(float deltaTime)
 	player->move(m_pGame->getInputData(), deltaTime);
 	m_vampireHandler->vampireSpawner(deltaTime, m_vampireData);
     m_vampireHandler->update(deltaTime, m_pGame->getState());
+
+	handleProjectiles(player, deltaTime);
 
 	if (isVampireDataEmpty(m_vampireData) && m_vampireHandler->isVampireVecEmpty())
 	{
@@ -119,6 +146,11 @@ void Level::render(sf::RenderTarget& target, sf::RenderStates& states)
 		m_healthBox.render(target, states);
 		m_vampireInfoBox.render(target, states);
 
+		for (auto& projectile : m_projectileVec)
+		{
+			projectile.draw(target, states);
+		}
+
 		// OWN SEPARATE FUNCTION
 		float padding = 30.f;
 		float gap = 15.f;
@@ -137,7 +169,6 @@ void Level::render(sf::RenderTarget& target, sf::RenderStates& states)
 			startX += gap + m_healthIcon.getSize().y;
 		}
 	}
-
 
 }
 

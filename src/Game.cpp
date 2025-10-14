@@ -9,6 +9,7 @@
 #include "EndScreen.hpp"
 #include "Weapon.h"
 #include "Player.h"
+#include "Projectile.hpp"
 #include "Rectangle.h"
 #include "Vampire.h"
 #include "VampireHandler.hpp"
@@ -67,6 +68,10 @@ bool Game::initialise()
 		std::cerr << "Failed to load SFX for player attack hit!" << std::endl;
 		return false;
 	}
+
+	sf::Image image;
+    image.create(GreenVampireBulletSize, GreenVampireBulletSize, sf::Color::Black);
+    m_greenVampireBulletTexture.loadFromImage(image);
 
 	m_pStartScreen = std::make_unique<StartScreen>(this);
 	m_pEndScreen = std::make_unique<EndScreen>(this);
@@ -169,6 +174,12 @@ void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
     }
    
 }
+
+void Game::addNewProjectile(Projectile& newProjectile)
+{
+	m_levelHandler->getProjectileVec().push_back(newProjectile);
+}
+
 
 void Game::onKeyPressed(sf::Keyboard::Key key)
 {

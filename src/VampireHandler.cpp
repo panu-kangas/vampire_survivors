@@ -4,6 +4,7 @@
 #include "ResourceManager.h"
 #include "Vampire.h"
 #include "RedVampire.hpp"
+#include "GreenVampire.hpp"
 #include "utilities.hpp"
 
 #include <iostream>
@@ -73,7 +74,12 @@ void VampireHandler::addVampireToVec(sf::Vector2f& position, VampireTypes& type,
 
 		case GREEN_VAMPIRE:
 		{
-			break ;
+			if (vampireData.greenVampireCount > 0)
+			{
+				m_pVampires.push_back(std::make_unique<GreenVampire>(m_pGame, position));
+				vampireData.greenVampireCount--;
+				break ;
+			}
 		}
 
 		case BOSS_VAMPIRE:

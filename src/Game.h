@@ -10,6 +10,7 @@
 #include "InputHandler.h"
 
 class Player;
+class Projectile;
 class Game;
 class GameInput;
 class Vampire;
@@ -42,6 +43,8 @@ public:
     State getState() const { return m_state; }
 	void setState(State newState) { m_state = newState; };
 	void drawFloor(sf::RenderTarget &target, bool isRed = false) const;
+
+	void addNewProjectile(Projectile& newProjectile);
     
     void onKeyPressed(sf::Keyboard::Key key);
     void onKeyReleased(sf::Keyboard::Key key);
@@ -56,6 +59,7 @@ public:
     sf::Texture* getPlayerTexture() { return &m_playerTexture; }
 	sf::Texture* getVampireTexture() { return &m_vampTexture; }
 	sf::Sprite*   getFloorSprite() { return &m_floorSprite; };
+	sf::Texture* getGreenVampireBulletTexture() { return &m_greenVampireBulletTexture; };
 	sf::SoundBuffer* getPlayerAttackBuff() { return &m_playerAttackBuff; };
 	sf::SoundBuffer* getPlayerTakeDamageBuff() { return &m_playerTakeDamageBuff; };
 	InputData& getInputData() { return m_pGameInput->getInputData(); };
@@ -76,6 +80,7 @@ private:
 	sf::Texture m_vampTexture;
 	sf::Texture m_floorTexture;
 	sf::Sprite 	m_floorSprite;
+	sf::Texture m_greenVampireBulletTexture;
 
 	sf::Music m_backgroundMusic;
 	sf::SoundBuffer m_playerAttackBuff;

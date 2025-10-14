@@ -4,6 +4,7 @@
 #include "GameState.hpp"
 #include "UpgradeShop.hpp"
 #include "Level.hpp"
+#include "Projectile.hpp"
 #include <array>
 #include <memory>
 
@@ -25,13 +26,15 @@ class LevelHandler
 
 	bool hasLevelStarted() { return m_curLevelPtr->hasLevelStarted(); };
 
+	std::vector<Projectile>& getProjectileVec() { return m_curLevelPtr->getProjectileVec(); };
+
 	private:
 
 	std::array<LevelData, 7> m_levelArr = {{
-		{1, {10, 4, 0, 0, 1.4f}},
-		{2, {15, 10, 0, 0, 1.2f}},
-		{3, {25, 10, 0, 0, 1.2f}},
-		{4, {40, 15, 10, 0, 0.7f}},
+		{1, {10, 0, 0, 0, 1.2f}},
+		{2, {15, 10, 0, 0, 1.1f}},
+		{3, {25, 15, 0, 0, 1.0f}},
+		{4, {40, 15, 7, 0, 1.1f}},
 		{5, {50, 25, 10, 0, 0.6f}},
 		{6, {50, 40, 20, 1, 0.8f}},
 	}};
