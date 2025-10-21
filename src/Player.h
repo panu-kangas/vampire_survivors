@@ -2,6 +2,7 @@
 
 #include "Rectangle.h"
 #include "Weapon.h"
+#include "HolyPulse.hpp"
 #include "Constants.h"
 #include "InfoBox.hpp"
 
@@ -37,7 +38,7 @@ public:
 	void handleBlinking();
 	void upgradeSpeed(float newSpeed, int newUpgradeLevel) { m_speed = newSpeed; m_upgradeLevel = newUpgradeLevel; }; 
 
-    Weapon* getWeapon() { return m_pWeapon.get(); }
+    std::vector<Weapon*>& getWeaponVec() { return m_weaponVec; };
 	float getSpeed() { return m_speed; };
 	float getUpgradeScale() { return m_upgradeScale; };
 	int	getHealth() { return m_health; };
@@ -59,7 +60,11 @@ private:
     eDirection m_direction = LEFT;
 	eDirection m_facingDirection = LEFT;
     Game*   m_pGame;
-    std::unique_ptr<Weapon> m_pWeapon;
 	sf::Sound m_hitSound;
 	sf::Sound m_takeDmgSound;
+
+	Weapon m_lance;
+	HolyPulse m_holyPulse;
+
+	std::vector<Weapon*> m_weaponVec;
 };

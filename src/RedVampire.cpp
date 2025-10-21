@@ -72,7 +72,7 @@ bool RedVampire::update(float deltaTime)
 	
     Player* pPlayer = m_pGame->getPlayer();
 
-    if (collidesWith(pPlayer->getWeapon()))
+    if (collidesWith(pPlayer->getWeaponVec()[0]))
     {
         setIsKilled(true);
         return true;

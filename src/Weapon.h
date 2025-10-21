@@ -10,10 +10,13 @@ public:
     Weapon(std::string name);
     virtual ~Weapon() {}
 
-    void setActive(bool isActive);
-    void update(float deltaTime);
-    bool isActive() { return m_isActive; }
+	// temp solution for fixing m_pUpgradeValue with std::vector push backs
+	Weapon(const Weapon& other) : Rectangle(other) { m_pUpgradeValue = &m_weaponLength; };
 
+    void setActive(bool isActive);
+    bool isActive() { return m_isActive; }
+	
+    virtual void update(float deltaTime);
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 	void handleUpgrade(float newUpgradeValue, int newUpgradeLevel);
@@ -26,14 +29,17 @@ public:
 	float getUpgradeScale() { return m_upgradeScale; };
 	std::string getName() { return m_name; };
 
-private:
+protected:
 
-    bool m_isActive = false;
-    float m_timer = 0.0f;
-	float m_weaponLength = WeaponWidth;
+	bool m_isActive = false;
+	float m_timer = 0.0f;
 	float* m_pUpgradeValue;
-	float m_upgradeScale;
+	float m_upgradeScale = 15.f;
 	int m_upgradeLevel = 1;
 	std::string m_name;
+
+private:
+
+	float m_weaponLength = WeaponWidth;
 
 };

@@ -15,8 +15,11 @@ UpgradeShop::UpgradeShop(Game* gamePtr, VampireLevelData& vampireData) :
 	m_continueButton.initButton("Continue to next level", sf::Color(14, 158, 33), sf::Color(2, 107, 16));
 	m_continueButton.setPosition({ScreenWidth / 2 - m_continueButton.getSize().x / 2, ScreenHeight * 0.85});
 
+	Weapon* lance = m_pGame->getPlayer()->getWeaponVec()[0];
+	Weapon* holyPulse = m_pGame->getPlayer()->getWeaponVec()[1];
+
 	float boxY = ScreenHeight * 0.3;
-	m_upgradeObjectVec.push_back(std::make_unique<UpgradeObject>(gamePtr, m_pGame->getPlayer()->getWeapon(), boxY));
+	m_upgradeObjectVec.push_back(std::make_unique<UpgradeObject>(gamePtr, lance, boxY));
 	m_upgradeObjectVec[0]->changeActiveStatus();
 
 	float gap = 20.f;

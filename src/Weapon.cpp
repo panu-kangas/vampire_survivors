@@ -8,7 +8,6 @@ Weapon::Weapon(std::string name) : Rectangle(sf::Vector2f(0, 0))
 
 	m_name = name;
 	m_pUpgradeValue = &m_weaponLength;
-	m_upgradeScale = 20.f;
 }
 
 void Weapon::setActive(bool isActive)

@@ -1,5 +1,4 @@
 #include "Player.h"
-#include "Weapon.h"
 #include "InputHandler.h"
 #include "Constants.h"
 #include <vector>
@@ -8,11 +7,16 @@
 Player::Player(Game* pGame) :
     Rectangle(sf::Vector2f(PlayerWidth, PlayerHeight)),
     m_pGame(pGame),
-    m_pWeapon(std::make_unique<Weapon>("Lance"))
+	m_lance("Lance"),
+	m_holyPulse("Holy Pulse")
 {
     setOrigin(sf::Vector2f(0.0f, 0.0f));
 	m_playerDamageClock.restart();
 	m_blinkTimer.restart();
+
+	m_weaponVec.push_back(&m_lance);
+	m_weaponVec.push_back(&m_holyPulse);
+
 }
 
 bool Player::initialise(bool isFullReset)
@@ -25,14 +29,23 @@ bool Player::initialise(bool isFullReset)
     setIsDead(false);
     setPosition(ScreenWidth / 2, ScreenHeight / 2);
     m_sprite.setPosition(getPosition());
-	m_pWeapon->setActive(false);
+
+	for (auto &weapon : m_weaponVec)
+	{
+		weapon->setActive(false);
+	}
+
 	if (isFullReset)
 	{
 		m_health = PlayerStartHealth;
-		m_pWeapon->resetUpgrades();
 		m_speed = PlayerSpeed;
 		m_upgradeLevel = 1;
 		m_skillPoints = PlayerStartSkillPoints;
+
+		for (auto &weapon : m_weaponVec)
+		{
+			weapon->resetUpgrades();
+		}
 	}
     return true;
 }
@@ -68,7 +81,7 @@ void Player::attack()
 {
 	if (m_attackCooldown <= 0.0f)
 	{
-    	m_pWeapon->setActive(true);
+    	m_lance.setActive(true);
 		m_attackCooldown = PlayerAttackCooldown;
 		m_hitSound.setBuffer(*m_pGame->getPlayerAttackBuff());
 		m_hitSound.play();
@@ -86,7 +99,7 @@ void Player::handleBlinking()
 
 void Player::update(float deltaTime)
 {
-    sf::Vector2f weaponSize = m_pWeapon->getSize();
+    sf::Vector2f weaponSize = m_lance.getSize();
 
     m_sprite.setPosition(getPosition());
 	if (m_direction != m_facingDirection && (m_direction == LEFT || m_direction == RIGHT))
@@ -109,21 +122,24 @@ void Player::update(float deltaTime)
 	else if (!m_isVisible)
 		m_isVisible = true;
 
-    m_pWeapon->setPosition(sf::Vector2f(
+    m_lance.setPosition(sf::Vector2f(
         getCenter().x - (m_facingDirection == LEFT ? weaponSize.x : 0.0f),
         getCenter().y - weaponSize.y / 2.0f));
-    m_pWeapon->update(deltaTime);
+    m_lance.update(deltaTime);
 	if (m_attackCooldown > 0)
 		m_attackCooldown -= deltaTime;
 }
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
+
 	if (m_isVisible)
 	{
 		Rectangle::draw(target, states);
-		m_pWeapon->draw(target, states);
+		m_lance.draw(target, states);
 	}
+
+	m_holyPulse.draw(target, states);
 }
 
 // Return true = player took a hit, return false = player was invulnerable
