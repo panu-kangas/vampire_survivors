@@ -90,7 +90,7 @@ bool  GreenVampire::update(float deltaTime)
 
 	// Separate collisions to own function...?
 
-    if (collidesWith(pPlayer->getWeaponVec()[0]))
+    if (checkWeaponHits(pPlayer))
     {
         setIsKilled(true);
         return true;

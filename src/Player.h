@@ -20,6 +20,12 @@ enum eDirection
     DOWN
 };
 
+enum eAttackType
+{
+	LANCE,
+	HOLY_PULSE
+};
+
 class Player : public Rectangle
 {
 public:
@@ -28,7 +34,7 @@ public:
     
     bool initialise(bool isFullReset = false);
     void move(InputData inputData, float deltaTime);
-    void attack();
+    void attack(eAttackType attackType);
     void update(float deltaTime);
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
@@ -39,6 +45,7 @@ public:
 	void upgradeSpeed(float newSpeed, int newUpgradeLevel) { m_speed = newSpeed; m_upgradeLevel = newUpgradeLevel; }; 
 
     std::vector<Weapon*>& getWeaponVec() { return m_weaponVec; };
+	eDirection getFacingDirection() { return m_facingDirection; };
 	float getSpeed() { return m_speed; };
 	float getUpgradeScale() { return m_upgradeScale; };
 	int	getHealth() { return m_health; };

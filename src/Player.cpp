@@ -77,15 +77,34 @@ void Player::move(InputData inputData, float deltaTime)
         m_direction = DOWN;
 }
 
-void Player::attack()
+void Player::attack(eAttackType attackType)
 {
-	if (m_attackCooldown <= 0.0f)
+	switch (attackType)
 	{
-    	m_lance.setActive(true);
-		m_attackCooldown = PlayerAttackCooldown;
-		m_hitSound.setBuffer(*m_pGame->getPlayerAttackBuff());
-		m_hitSound.play();
+		case LANCE:
+		{
+			if (m_attackCooldown <= 0.0f)
+			{
+				m_lance.setActive(true);
+				m_attackCooldown = PlayerAttackCooldown;
+				m_hitSound.setBuffer(*m_pGame->getPlayerAttackBuff());
+				m_hitSound.play();
+			}
+
+			break ;
+		}
+
+		case HOLY_PULSE:
+		{
+			m_holyPulse.setActive(true);
+			
+			break ;
+		}
+
+		default:
+			break ;
 	}
+	
 }
 
 void Player::handleBlinking()
@@ -122,10 +141,12 @@ void Player::update(float deltaTime)
 	else if (!m_isVisible)
 		m_isVisible = true;
 
-    m_lance.setPosition(sf::Vector2f(
-        getCenter().x - (m_facingDirection == LEFT ? weaponSize.x : 0.0f),
-        getCenter().y - weaponSize.y / 2.0f));
-    m_lance.update(deltaTime);
+    
+	for (auto& weapon : m_weaponVec)
+	{
+		weapon->update(deltaTime, this);
+	}
+
 	if (m_attackCooldown > 0)
 		m_attackCooldown -= deltaTime;
 }

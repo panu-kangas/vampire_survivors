@@ -32,11 +32,19 @@ Level::Level(Game* gamePtr, unsigned int levelId, VampireLevelData& vampireData)
 
 void Level::handleInput(InputData& inputData)
 {
-	if (m_levelCanStart && inputData.m_space && !inputData.m_spaceHold)
-    {
-        m_pGame->getPlayer()->attack();
-		inputData.m_spaceHold = true;
-    }
+	if (m_levelCanStart)
+	{
+		if (inputData.m_space && !inputData.m_spaceHold)
+		{
+			m_pGame->getPlayer()->attack(LANCE);
+			inputData.m_spaceHold = true;
+		}
+		else if (inputData.m_vPressed && !inputData.m_vHold)
+		{
+			m_pGame->getPlayer()->attack(HOLY_PULSE);
+			inputData.m_vHold = true;
+		}
+	}
 
 	if (!m_levelCanStart && m_pGame->isEnterPressed())
 	{

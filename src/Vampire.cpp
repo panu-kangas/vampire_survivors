@@ -6,6 +6,7 @@
 #include "MathUtils.h"
 #include "utilities.hpp"
 #include "Constants.h"
+#include "HolyPulse.hpp"
 
 #include <iostream>
 
@@ -22,6 +23,19 @@ Vampire::Vampire(Game* game, sf::Vector2f position) :
     m_sprite.setScale(2.0f, 2.0f);
 }
 
+bool Vampire::checkWeaponHits(Player* pPlayer)
+{
+	Weapon* lance = pPlayer->getWeaponVec()[0];
+	HolyPulse* holyPulse = dynamic_cast<HolyPulse*>(pPlayer->getWeaponVec()[1]);
+
+	if (collidesWith(lance) && lance->isActive())
+		return true;
+	else if (getDistanceBetweenPoints(getCenter(), pPlayer->getCenter()) < holyPulse->getRadius() + 15.f && holyPulse->isActive())
+		return true;
+
+	return false;
+}
+
 bool Vampire::update(float deltaTime)
 {
     if (m_isKilled)
@@ -29,7 +43,7 @@ bool Vampire::update(float deltaTime)
 	
     Player* pPlayer = m_pGame->getPlayer();
 
-    if (collidesWith(pPlayer->getWeaponVec()[0]))
+    if (checkWeaponHits(pPlayer))
     {
         setIsKilled(true);
         return true;

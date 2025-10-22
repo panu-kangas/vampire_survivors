@@ -18,8 +18,10 @@ struct InputData
 	bool m_enterHold = false;
     bool m_space = false;
     bool m_spaceHold = false;
+	bool m_vPressed = false;
+	bool m_vHold = false;
 
-    bool hasInputs() { return m_movingUp || m_movingDown || m_movingLeft || m_movingRight || m_space || m_enter;}
+    bool hasInputs() { return m_movingUp || m_movingDown || m_movingLeft || m_movingRight || m_space || m_enter || m_vPressed;}
 };
 
 class GameInput

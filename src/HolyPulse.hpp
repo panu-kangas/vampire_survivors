@@ -11,11 +11,18 @@ class HolyPulse : public Weapon
 	HolyPulse(std::string name);
 	~HolyPulse() = default;
 
-	void update(float deltaTime) override;
+	void update(float deltaTime, Player* playerPtr) override;
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
+	void setActive(bool isActive) override;
+	float getRadius() { return m_radius; };
+
 
 	private:
 
-	float m_radius = 40.f;
+	float m_radius = HolyPulseRadius;
+	bool m_isPulseStarted = false;
+	sf::CircleShape m_circle;
+
 
 };

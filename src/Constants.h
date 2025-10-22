@@ -14,9 +14,9 @@ const int	PlayerStartSkillPoints = 1;
 
 const float VampireHeight = 32.0f;
 const float VampireWidth = 32.0f;
-const float VampireSpeed = 130.0f;
+const float VampireSpeed = 120.0f;
 
-const float RedVampireSpeed = 320.0f;
+const float RedVampireSpeed = 310.0f;
 const float RedVampireDirChangeCooldown = 4.0f;
 const float RedVampireStopCooldown = 2.0f;
 const float RedVampireBlinkInterval = 0.1f;
@@ -31,6 +31,9 @@ const float GreenVampireBulletSize = 8.f;
 const float WeaponHeight = 10.0f;
 const float WeaponWidth = 90.0f;
 const float WeaponActiveTime = 0.25f;
+
+const float HolyPulseAnimationTime = 0.3f;
+const float HolyPulseRadius = 80.f;
 
 const float EnterCooldown = 0.1f;
 

@@ -45,6 +45,10 @@ void GameInput::onKeyPressed(sf::Keyboard::Key key)
     {
         m_inputData.m_enter = true;
     }
+	else if (key == sf::Keyboard::V)
+    {
+        m_inputData.m_vPressed = true;
+    }
 }
 
 void GameInput::onKeyReleased(sf::Keyboard::Key key)
@@ -76,6 +80,11 @@ void GameInput::onKeyReleased(sf::Keyboard::Key key)
     {
         m_inputData.m_enter = false;
 		m_inputData.m_enterHold = false;
+    }
+	else if (key == sf::Keyboard::V)
+    {
+        m_inputData.m_vPressed = false;
+		m_inputData.m_vHold = false;
     }
 }
 

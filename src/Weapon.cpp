@@ -1,4 +1,5 @@
 #include "Weapon.h"
+#include "Player.h"
 
 Weapon::Weapon(std::string name) : Rectangle(sf::Vector2f(0, 0))
 {
@@ -38,8 +39,12 @@ void Weapon::resetUpgrades()
 }
 
 
-void Weapon::update(float deltaTime)
+void Weapon::update(float deltaTime, Player* playerPtr)
 {
+	setPosition(sf::Vector2f(
+		playerPtr->getCenter().x - (playerPtr->getFacingDirection() == LEFT ? getSize().x : 0.0f),
+		playerPtr->getCenter().y - getSize().y / 2.0f));
+
     if (m_isActive)
     {
         m_timer -= deltaTime;

@@ -83,3 +83,11 @@ std::string floatToString(float value, int precision)
     ss << std::fixed << std::setprecision(precision) << value;
     return ss.str();
 }
+
+
+float getDistanceBetweenPoints(const sf::Vector2f& a, const sf::Vector2f& b)
+{
+    float dx = b.x - a.x;
+    float dy = b.y - a.y;
+    return std::sqrt(dx * dx + dy * dy);
+}

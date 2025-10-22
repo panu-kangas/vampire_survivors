@@ -3,6 +3,8 @@
 #include "Rectangle.h"
 #include "Constants.h"
 
+class Player;
+
 class Weapon : public Rectangle
 {
 public:
@@ -13,10 +15,10 @@ public:
 	// temp solution for fixing m_pUpgradeValue with std::vector push backs
 	Weapon(const Weapon& other) : Rectangle(other) { m_pUpgradeValue = &m_weaponLength; };
 
-    void setActive(bool isActive);
-    bool isActive() { return m_isActive; }
+    virtual void setActive(bool isActive);
+    bool isActive() { return m_isActive; };
 	
-    virtual void update(float deltaTime);
+    virtual void update(float deltaTime, Player* playerPtr);
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 	void handleUpgrade(float newUpgradeValue, int newUpgradeLevel);
