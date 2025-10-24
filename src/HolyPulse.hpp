@@ -13,10 +13,11 @@ class HolyPulse : public Weapon
 
 	void update(float deltaTime, Player* playerPtr) override;
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+	void resetUpgrades() override;
+	bool checkCollision(Rectangle* obj) override;
 
 	void setActive(bool isActive) override;
 	float getRadius() { return m_radius; };
-
 
 	private:
 

@@ -24,7 +24,10 @@ UpgradeShop::UpgradeShop(Game* gamePtr, VampireLevelData& vampireData) :
 
 	float gap = 20.f;
 	float box2Y = boxY + m_upgradeObjectVec[0]->getSize().y + gap;
-	m_upgradeObjectVec.push_back(std::make_unique<UpgradeObject>(gamePtr, nullptr, box2Y));
+	m_upgradeObjectVec.push_back(std::make_unique<UpgradeObject>(gamePtr, holyPulse, box2Y));
+
+	float box3Y = box2Y + m_upgradeObjectVec[0]->getSize().y + gap;
+	m_upgradeObjectVec.push_back(std::make_unique<UpgradeObject>(gamePtr, nullptr, box3Y));
 
 	int& skillPoints = m_pGame->getPlayer()->getSkillPoints();
 	m_skillPointInfoBox.initInfoBox({"Skill points left: ", "", std::to_string(skillPoints)}, 23.f, sf::Color(153, 108, 52));

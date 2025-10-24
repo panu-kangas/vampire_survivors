@@ -56,7 +56,6 @@ private:
 
     bool    m_isDead = false;
 	bool	m_isVisible = true;
-	float	m_attackCooldown = 0.0f;
 	float 	m_speed = PlayerSpeed;
 	float 	m_upgradeScale = 10.f;
 	int 	m_upgradeLevel = 1;

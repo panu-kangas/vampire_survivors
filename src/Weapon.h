@@ -20,25 +20,30 @@ public:
 	
     virtual void update(float deltaTime, Player* playerPtr);
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+	virtual bool checkCollision(Rectangle* obj);
 
 	void handleUpgrade(float newUpgradeValue, int newUpgradeLevel);
-	void resetUpgrades();
+	virtual void resetUpgrades();
 
 	float getWeaponLength() { return m_weaponLength; };
 	void setWeaponLength(float newLength) { m_weaponLength = newLength; };
 	float* getUpgradeValue() { return m_pUpgradeValue; };
 	int getUpgradeLevel() { return m_upgradeLevel; };
 	float getUpgradeScale() { return m_upgradeScale; };
+	bool isReadyToAttack() { return m_cooldownClock.getElapsedTime().asSeconds() > m_cooldownTime; };
 	std::string getName() { return m_name; };
 
 protected:
 
 	bool m_isActive = false;
 	float m_timer = 0.0f;
+	float m_cooldownTime = WeaponAttackCooldown;
 	float* m_pUpgradeValue;
 	float m_upgradeScale = 15.f;
 	int m_upgradeLevel = 1;
 	std::string m_name;
+
+	sf::Clock m_cooldownClock;
 
 private:
 

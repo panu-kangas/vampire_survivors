@@ -25,13 +25,11 @@ Vampire::Vampire(Game* game, sf::Vector2f position) :
 
 bool Vampire::checkWeaponHits(Player* pPlayer)
 {
-	Weapon* lance = pPlayer->getWeaponVec()[0];
-	HolyPulse* holyPulse = dynamic_cast<HolyPulse*>(pPlayer->getWeaponVec()[1]);
-
-	if (collidesWith(lance) && lance->isActive())
-		return true;
-	else if (getDistanceBetweenPoints(getCenter(), pPlayer->getCenter()) < holyPulse->getRadius() + 15.f && holyPulse->isActive())
-		return true;
+	for (auto& weapon : pPlayer->getWeaponVec())
+	{
+		if (weapon->checkCollision(this))
+			return true;
+	}
 
 	return false;
 }

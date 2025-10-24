@@ -1,12 +1,13 @@
 #pragma once
 
+#include <SFML/Graphics.hpp>
+
 const int ScreenWidth = 1400;
 const int ScreenHeight = 950;
 
 const float PlayerHeight = 55.0f;
 const float PlayerWidth = 55.0f;
 const float PlayerSpeed = 145.0f;
-const float PlayerAttackCooldown = 0.4f;
 const float PlayerDamageCooldown = 2.0f;
 const float PlayerBlinkInterval = 0.2f;
 const int	PlayerStartHealth = 3;
@@ -31,9 +32,11 @@ const float GreenVampireBulletSize = 8.f;
 const float WeaponHeight = 10.0f;
 const float WeaponWidth = 90.0f;
 const float WeaponActiveTime = 0.25f;
+const float WeaponAttackCooldown = 0.4f;
 
 const float HolyPulseAnimationTime = 0.3f;
 const float HolyPulseRadius = 80.f;
+const float HolyPulseCooldownTime = 1.0f;
 
 const float EnterCooldown = 0.1f;
 
@@ -41,3 +44,5 @@ const float ButtonPressCooldown = 0.05f;
 const float ButtonBlinkFXCooldown = 0.05f;
 
 const int 	maxUpgradeLevel = 6;
+
+const sf::Vector2f weaponAreaSize{150, 60};

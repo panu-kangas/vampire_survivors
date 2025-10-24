@@ -6,6 +6,7 @@
 #include "VampireInfoBox.hpp"
 #include "InfoBox.hpp"
 #include "Projectile.hpp"
+#include "WeaponInfoBox.hpp"
 #include <memory>
 
 class Game;
@@ -22,7 +23,7 @@ class Level : public GameState
 	void update(float deltaTime) override;
     void render(sf::RenderTarget& target, sf::RenderStates& states) override;
 	void renderIntroScreen(sf::RenderTarget& target, sf::RenderStates& states);
-	void updateInfoBoxes();
+	void updateInfoBoxes(float deltaTime);
 
 	void handleProjectiles(Player* player, float deltaTime);
 
@@ -45,6 +46,7 @@ class Level : public GameState
 	InfoBox m_scoreInfo;
 	InfoBox m_healthBox;
 	VampireInfoBox m_vampireInfoBox;
+	WeaponInfoBox m_weaponInfoBox;
 	sf::RectangleShape m_healthIcon;
 
 	std::vector<Projectile> m_projectileVec;

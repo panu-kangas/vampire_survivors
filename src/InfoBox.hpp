@@ -27,6 +27,7 @@ class InfoBox
 
 	sf::Vector2f getSize() { return m_size; };
 	sf::Vector2f getPosition() { return m_position; };
+	sf::Color getColor() { return m_bgColor; };
 	float getLineHeight() { return m_lineHeight; };
 	bool isActive() { return m_isActive; };
 	void changeActiveStatus() { m_isActive = !m_isActive; };

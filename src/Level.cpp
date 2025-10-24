@@ -12,8 +12,8 @@ Level::Level(Game* gamePtr, unsigned int levelId, VampireLevelData& vampireData)
 	m_vampireData(vampireData),
 	m_vampireInfoBox(gamePtr, vampireData),
 	m_scoreInfo(gamePtr),
-	m_healthBox(gamePtr)
-
+	m_healthBox(gamePtr),
+	m_weaponInfoBox(gamePtr, gamePtr->getPlayer()->getWeaponVec())
 {
 	m_vampireHandler = std::make_unique<VampireHandler>(gamePtr, *gamePtr->getVampireTexture(), vampireData.vampireSpawnRate);
 
@@ -88,7 +88,7 @@ void Level::update(float deltaTime)
 	if (!m_levelCanStart)
 		return ;
 
-	updateInfoBoxes();
+	updateInfoBoxes(deltaTime);
 
 	if (m_isLevelPassed && !m_isReady)
 		return ;
@@ -108,7 +108,7 @@ void Level::update(float deltaTime)
 
 }
 
-void Level::updateInfoBoxes()
+void Level::updateInfoBoxes(float deltaTime)
 {
 	if (m_isLevelPassed && !m_isReady)
 	{
@@ -120,7 +120,8 @@ void Level::updateInfoBoxes()
 	}
 	auto scoreInfoSize = m_scoreInfo.getSize();
 	float infoX = ScreenWidth / 2 - scoreInfoSize.x / 2;
-	m_scoreInfo.setPosition({infoX, 0});
+	float infoY = ScreenHeight - m_scoreInfo.getSize().y;
+	m_scoreInfo.setPosition({infoX, infoY});
 
 	std::vector<std::string> infoText = {
 		"Health remaining",
@@ -135,6 +136,7 @@ void Level::updateInfoBoxes()
 	m_healthIcon.setSize({25.f, 25.f});
 
 	m_vampireInfoBox.update(m_vampireData);
+	m_weaponInfoBox.update(deltaTime);
 
 }
 
@@ -153,6 +155,7 @@ void Level::render(sf::RenderTarget& target, sf::RenderStates& states)
 		m_vampireHandler->drawVampires(target, states);
 		m_healthBox.render(target, states);
 		m_vampireInfoBox.render(target, states);
+		m_weaponInfoBox.render(target, states);
 
 		for (auto& projectile : m_projectileVec)
 		{

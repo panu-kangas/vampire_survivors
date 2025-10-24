@@ -1,5 +1,5 @@
 Working hours spent:
-32 h
+35 h
 
 
 BUG FIXES
@@ -37,3 +37,4 @@ ADDITIONS
 - Added skill points to the UpgradeShop
 - Added third enemy type, Green Vampire, that can shoot projectiles
 - Added new weapon, Holy Pulse, that does area damage around player
+- Added WeaponInfoBox that displays weapon related information to player during levels

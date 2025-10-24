@@ -83,20 +83,21 @@ void Player::attack(eAttackType attackType)
 	{
 		case LANCE:
 		{
-			if (m_attackCooldown <= 0.0f)
+			if (m_lance.isReadyToAttack())
 			{
 				m_lance.setActive(true);
-				m_attackCooldown = PlayerAttackCooldown;
 				m_hitSound.setBuffer(*m_pGame->getPlayerAttackBuff());
 				m_hitSound.play();
 			}
-
 			break ;
 		}
 
 		case HOLY_PULSE:
 		{
-			m_holyPulse.setActive(true);
+			if (m_holyPulse.isReadyToAttack())
+			{
+				m_holyPulse.setActive(true);
+			}
 			
 			break ;
 		}
@@ -147,8 +148,6 @@ void Player::update(float deltaTime)
 		weapon->update(deltaTime, this);
 	}
 
-	if (m_attackCooldown > 0)
-		m_attackCooldown -= deltaTime;
 }
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
