@@ -28,7 +28,7 @@ void drawHeaderText(sf::RenderTarget &target, sf::Font font, std::string text)
 	target.draw(textToDraw);
 }
 
-void drawCenteredText(sf::RenderTarget &target, sf::Font font, std::string text)
+void drawCenteredText(sf::RenderTarget &target, sf::Font font, std::string text, float yOffset)
 {
 	sf::Text textToDraw;
 	textToDraw.setFont(font);
@@ -37,7 +37,7 @@ void drawCenteredText(sf::RenderTarget &target, sf::Font font, std::string text)
 	textToDraw.setFillColor(sf::Color::White);
 	textToDraw.setStyle(sf::Text::Bold);
 	float xPos = ScreenWidth / 2 - textToDraw.getLocalBounds().width / 2;
-	textToDraw.setPosition(xPos, ScreenHeight * 0.4);
+	textToDraw.setPosition(xPos, ScreenHeight * 0.4 + yOffset);
 	target.draw(textToDraw);
 }
 

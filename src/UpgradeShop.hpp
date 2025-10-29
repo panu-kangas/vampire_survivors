@@ -26,6 +26,7 @@ class UpgradeShop : public GameState
 	private:
 
 	bool m_isReady = false;
+	bool m_displayWarning = false;
 	VampireInfoBox m_vampireInfoBox;
 	InfoBox m_skillPointInfoBox;
 
@@ -33,4 +34,5 @@ class UpgradeShop : public GameState
 	size_t m_activeObjIndex = 0;
 
 	Button m_continueButton;
+	sf::Text m_warningText;
 };

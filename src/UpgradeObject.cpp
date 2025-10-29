@@ -139,7 +139,7 @@ void UpgradeObject::handleInput(InputData& inputData)
 void UpgradeObject::update(float deltaTime)
 {
 
-	std::string upgradeName = !m_pWeapon ? "Upgrade Speed" : "Upgrade " + m_pWeapon->getName();
+	std::string upgradeName = !m_pWeapon ? "Player Speed" : m_pWeapon->getUpgradeName();
 
 	std::vector<std::string> infoText {
 		upgradeName,

@@ -37,6 +37,14 @@ void LevelHandler::update(float deltaTime, InputData& inputData)
 	if (m_curLevelPtr->isLevelReady())
 	{
 		m_curLevelId++;
+		if (m_curLevelId > m_levelArr.size())
+		{
+			m_curLevelId = 1;
+			m_pGame->setState(Game::State::GAME_OVER);
+			m_pGame->setEndStatus(true); // "You win"
+			return ;
+		}
+
 		m_pGame->getPlayer()->getSkillPoints() += 1;
 		initNewLevel(m_curLevelId);
 	}
@@ -44,6 +52,7 @@ void LevelHandler::update(float deltaTime, InputData& inputData)
 	{
 		m_curLevelId = 1;
 		m_pGame->setState(Game::State::GAME_OVER);
+		m_pGame->setEndStatus(false); // "You died"
 	}
 }
 

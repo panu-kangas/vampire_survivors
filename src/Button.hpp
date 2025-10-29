@@ -29,6 +29,7 @@ class Button
 	bool isPressed();
 	sf::Vector2f getSize() { return m_size; };
 	eButtonType getType() { return m_type; };
+	sf::Vector2f getPosition() { return m_position; };
 
 	void setPosition(sf::Vector2f newPos) { m_position = newPos; };
 	void setSize(sf::Vector2f newSize) { m_size = newSize; };

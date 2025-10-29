@@ -3,13 +3,14 @@
 
 #include <iostream>
 
-Weapon::Weapon(std::string name) : Rectangle(sf::Vector2f(0, 0))
+Weapon::Weapon(std::string name, std::string upgradeName) : Rectangle(sf::Vector2f(0, 0))
 {
     setPosition(sf::Vector2f(ScreenWidth * 0.5f, ScreenHeight * 0.5f));
     setOrigin(sf::Vector2f(0.0f, 0.0f));
     setColor(sf::Color::Blue);
 
 	m_name = name;
+	m_upgradeName = upgradeName;
 	m_pUpgradeValue = &m_weaponLength;
 	m_cooldownClock.restart();
 }

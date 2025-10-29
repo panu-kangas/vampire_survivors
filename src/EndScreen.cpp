@@ -26,9 +26,19 @@ void EndScreen::update(float deltaTime)
 
 void EndScreen::render(sf::RenderTarget& target, sf::RenderStates& states)
 {
-	m_pGame->drawFloor(target, true);
-	drawHeaderText(target, *m_font, "You died!");
+	if (m_isWin)
+	{
+		m_pGame->drawFloor(target, GREEN);
+		drawHeaderText(target, *m_font, "You win!");
+		drawCenteredText(target, *m_font, "You are an amazing vampire slayer, congrats!", -30.f);
+	}
+	else
+	{
+		m_pGame->drawFloor(target, RED);
+		drawHeaderText(target, *m_font, "You died!");
+	}
 	std::string scoreString = std::to_string(m_pGame->getCoins());
-	drawCenteredText(target, *m_font, "Your score was: " + scoreString);
+	drawCenteredText(target, *m_font, "Your score was:", 40.f);
+	drawCenteredText(target, *m_font, scoreString, 96.f);
 	drawBottomText(target, *m_font, "Press Enter to play again!");
 }

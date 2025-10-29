@@ -130,6 +130,7 @@ void Game::update(float deltaTime)
 				m_pEndScreen->setIsReady(false);
 				m_state = State::START_SCREEN;
 			}
+			break ;
 		}
 
         break;
@@ -137,12 +138,16 @@ void Game::update(float deltaTime)
 
 }
 
-void Game::drawFloor(sf::RenderTarget &target, bool isRed) const
+void Game::drawFloor(sf::RenderTarget &target, eFloorColor color) const
 {
 	sf::Sprite tempSprite = m_floorSprite;
-	if (isRed)
+	if (color == eFloorColor::RED)
 	{
 		tempSprite.setColor(sf::Color::Red);
+	}
+	else if (color == eFloorColor::GREEN)
+	{
+		tempSprite.setColor(sf::Color(14, 158, 33));
 	}
 
 	// -10 because the sprite had rounded corners --> empty spot in top left corner
@@ -215,3 +220,9 @@ bool Game::hasLevelStarted()
 {
 	return m_levelHandler->hasLevelStarted();
 }
+
+void Game::setEndStatus(bool status)
+{
+	m_pEndScreen->setWinStatus(status);
+}
+

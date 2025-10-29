@@ -8,7 +8,7 @@ class HolyPulse : public Weapon
 	public:
 
 	HolyPulse() = delete;
-	HolyPulse(std::string name);
+	HolyPulse(std::string name, std::string upgradeName);
 	~HolyPulse() = default;
 
 	void update(float deltaTime, Player* playerPtr) override;

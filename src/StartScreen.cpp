@@ -20,9 +20,10 @@ StartScreen::StartScreen(Game* gamePtr) : GameState(gamePtr), m_instructionBox(g
 		"You can use these skill points before each level to boost your weapons and attributes.",
 		"Good luck!",
 		"",
-		"Move & Navigate menu:   Arrow keys",
-		"Interact with menu buttons:  Enter",
-		"Use Weapon:   Space"
+		"Menu interaction:    Arrow keys + Enter",
+		"Move Player:             Arrow Keys",
+		"Use Lance:                 Space",
+		"Use Holy Pulse:         V"
 	};
 	m_instructionBox.initInfoBox(infoText, 23.f, sf::Color(242, 134, 39, 200));
 	auto instructionSize = m_instructionBox.getSize();
@@ -49,7 +50,7 @@ void StartScreen::render(sf::RenderTarget& target, sf::RenderStates& states)
 {
 	m_pGame->drawFloor(target);
 	m_pVampireHandler->drawVampires(target, states);
-	drawHeaderText(target, *m_font, "Welcome, Player!");
+	drawHeaderText(target, *m_font, "Vampires!");
 	drawBottomText(target, *m_font, "Press Enter to start the game");
 	m_instructionBox.render(target, states);
 }

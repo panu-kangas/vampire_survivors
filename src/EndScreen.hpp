@@ -16,11 +16,14 @@ class EndScreen : public GameState {
 
 	bool isReady() { return m_isReady; };
 	void setIsReady(bool ready) { m_isReady = ready; };
+	bool getWinStatus() { return m_isWin; };
+	void setWinStatus(bool status) { m_isWin = status; };
 
 	private:
 
     sf::Font* m_font;
     sf::Text m_welcomeText;
 	bool m_isReady = false;
+	bool m_isWin = false;
 
 };

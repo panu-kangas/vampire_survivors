@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-HolyPulse::HolyPulse(std::string name) : Weapon(name)
+HolyPulse::HolyPulse(std::string name, std::string upgradeName) : Weapon(name, upgradeName)
 {
 	m_name = name;
 	m_upgradeScale = 10.f;

@@ -34,6 +34,14 @@ UpgradeShop::UpgradeShop(Game* gamePtr, VampireLevelData& vampireData) :
 	m_skillPointInfoBox.centerText();
 	m_skillPointInfoBox.setPosition({ScreenWidth * 0.1, boxY});
 
+	m_warningText.setFont(*gamePtr->getFont());
+	m_warningText.setString("Please use all Skill Points before leaving the shop!");
+	m_warningText.setCharacterSize(22.f);
+	m_warningText.setFillColor(sf::Color::Black);
+	sf::Vector2f textPos {m_continueButton.getPosition().x + m_continueButton.getSize().x / 2 - m_warningText.getLocalBounds().width / 2, 
+		m_continueButton.getPosition().y - 40.f};
+	m_warningText.setPosition(textPos);
+
 }
 
 void UpgradeShop::initShop()
@@ -73,12 +81,19 @@ void UpgradeShop::handleInput(InputData& inputData)
 
 	m_continueButton.handleInput(inputData);
 	int& skillPoints = m_pGame->getPlayer()->getSkillPoints();
-	if (m_continueButton.isPressed() && skillPoints == 0)
+	if (m_continueButton.isPressed())
 	{
-		m_isReady = true;
-		for (auto& upgrade : m_upgradeObjectVec)
+		if (skillPoints == 0)
 		{
-			upgrade->handleUpgrade();
+			m_isReady = true;
+			for (auto& upgrade : m_upgradeObjectVec)
+			{
+				upgrade->handleUpgrade();
+			}
+		}
+		else
+		{
+			m_displayWarning = true;
 		}
 	}
 
@@ -106,6 +121,11 @@ void UpgradeShop::render(sf::RenderTarget& target, sf::RenderStates& states)
 	m_continueButton.render(target, states);
 	m_skillPointInfoBox.render(target, states);
 	drawHeaderText(target, *m_pGame->getFont(), "Welcome to Upgrade Shop!");
+
+	if (m_displayWarning)
+	{
+		target.draw(m_warningText);
+	}
 
 	for (auto& upgrade : m_upgradeObjectVec)
 	{

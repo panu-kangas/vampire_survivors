@@ -7,8 +7,8 @@
 Player::Player(Game* pGame) :
     Rectangle(sf::Vector2f(PlayerWidth, PlayerHeight)),
     m_pGame(pGame),
-	m_lance("Lance"),
-	m_holyPulse("Holy Pulse")
+	m_lance("Lance", "Lance Length"),
+	m_holyPulse("Holy Pulse", "Holy Pulse Radius")
 {
     setOrigin(sf::Vector2f(0.0f, 0.0f));
 	m_playerDamageClock.restart();

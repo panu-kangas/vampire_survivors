@@ -9,7 +9,7 @@ class Weapon : public Rectangle
 {
 public:
 
-    Weapon(std::string name);
+    Weapon(std::string name, std::string upgradeName);
     virtual ~Weapon() {}
 
 	// temp solution for fixing m_pUpgradeValue with std::vector push backs
@@ -32,6 +32,8 @@ public:
 	float getUpgradeScale() { return m_upgradeScale; };
 	bool isReadyToAttack() { return m_cooldownClock.getElapsedTime().asSeconds() > m_cooldownTime; };
 	std::string getName() { return m_name; };
+	std::string getUpgradeName() { return m_upgradeName; };
+
 
 protected:
 
@@ -42,6 +44,7 @@ protected:
 	float m_upgradeScale = 15.f;
 	int m_upgradeLevel = 1;
 	std::string m_name;
+	std::string m_upgradeName;
 
 	sf::Clock m_cooldownClock;
 

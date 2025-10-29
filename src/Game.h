@@ -21,6 +21,13 @@ class EndScreen;
 
 namespace sf { class Clock; }
 
+enum eFloorColor
+{
+	NORMAL,
+	RED,
+	GREEN
+};
+
 class Game : public sf::Drawable
 {
 public:
@@ -42,7 +49,7 @@ public:
 
     State getState() const { return m_state; }
 	void setState(State newState) { m_state = newState; };
-	void drawFloor(sf::RenderTarget &target, bool isRed = false) const;
+	void drawFloor(sf::RenderTarget &target, eFloorColor color = NORMAL) const;
 
 	void addNewProjectile(Projectile& newProjectile);
     
@@ -63,6 +70,7 @@ public:
 	sf::SoundBuffer* getPlayerAttackBuff() { return &m_playerAttackBuff; };
 	sf::SoundBuffer* getPlayerTakeDamageBuff() { return &m_playerTakeDamageBuff; };
 	InputData& getInputData() { return m_pGameInput->getInputData(); };
+	void setEndStatus(bool status);
 
 private:
     std::unique_ptr<Player> m_pPlayer;
