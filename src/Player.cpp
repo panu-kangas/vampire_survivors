@@ -1,14 +1,15 @@
+#include <vector>
+
 #include "Player.h"
 #include "InputHandler.h"
 #include "Constants.h"
-#include <vector>
 #include "Game.h"
 
 Player::Player(Game* pGame) :
     Rectangle(sf::Vector2f(PlayerWidth, PlayerHeight)),
     m_pGame(pGame),
-	m_lance("Lance", "Lance Length"),
-	m_holyPulse("Holy Pulse", "Holy Pulse Radius")
+	m_lance("Lance", "Lance Length", this),
+	m_holyPulse("Holy Pulse", "Holy Pulse Radius", this)
 {
     setOrigin(sf::Vector2f(0.0f, 0.0f));
 	m_playerDamageClock.restart();
@@ -145,7 +146,7 @@ void Player::update(float deltaTime)
     
 	for (auto& weapon : m_weaponVec)
 	{
-		weapon->update(deltaTime, this);
+		weapon->update(deltaTime);
 	}
 
 }

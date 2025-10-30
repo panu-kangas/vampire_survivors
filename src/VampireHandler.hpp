@@ -6,14 +6,6 @@
 
 class Game;
 
-enum VampireTypes
-{
-	WHITE_VAMPIRE,
-	RED_VAMPIRE,
-	GREEN_VAMPIRE,
-	BOSS_VAMPIRE
-};
-
 class VampireHandler
 {
 	public:

@@ -30,8 +30,13 @@ class LevelHandler
 
 	private:
 
-	std::array<LevelData, 1> m_levelArr = {{
-		{1, {10, 0, 0, 0, 1.2f}}
+	std::array<LevelData, 7> m_levelArr = {{
+		{1, {10, 0, 0, 0, 1.2f}},
+		{2, {16, 0, 0, 0, 1.0f}},
+		{3, {14, 6, 0, 0, 1.0f}},
+		{4, {18, 8, 4, 0, 1.0f}},
+		{5, {22, 11, 8, 0, 0.9f}},
+		{6, {26, 15, 12, 0, 0.9f}},
 	}};
 	std::unique_ptr<Level> m_curLevelPtr;
 	std::unique_ptr<UpgradeShop> m_pUpgradeShop;
@@ -40,15 +45,3 @@ class LevelHandler
 	Game* m_pGame;
 
 };
-
-/**
- * 
- * std::array<LevelData, 7> m_levelArr = {{
-		{1, {10, 0, 0, 0, 1.2f}},
-		{2, {22, 0, 0, 0, 1.0f}},
-		{3, {16, 10, 0, 0, 0.9f}},
-		{4, {22, 12, 8, 0, 1.0f}},
-		{5, {50, 25, 10, 0, 0.6f}},
-		{6, {50, 40, 20, 0, 0.8f}},
-	}};
- */

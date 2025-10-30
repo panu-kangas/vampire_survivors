@@ -19,5 +19,8 @@ class WeaponInfoRenderer
 	Weapon* m_weapon;
 
 	sf::RectangleShape m_box;
+	sf::RectangleShape m_cooldownColumn;
 	sf::Text m_text;
+	sf::Color m_readyColor = sf::Color(0, 160, 0, 110);
+	sf::Color m_cooldownColor = sf::Color(160, 0, 0, 110);
 };

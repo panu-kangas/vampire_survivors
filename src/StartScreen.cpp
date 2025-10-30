@@ -28,7 +28,7 @@ StartScreen::StartScreen(Game* gamePtr) : GameState(gamePtr), m_instructionBox(g
 	m_instructionBox.initInfoBox(infoText, 23.f, sf::Color(242, 134, 39, 200));
 	auto instructionSize = m_instructionBox.getSize();
 	float infoX = ScreenWidth / 2 - instructionSize.x / 2;
-	float infoY = ScreenHeight * 0.4;
+	float infoY = ScreenHeight * 0.3;
 	m_instructionBox.setPosition({infoX, infoY});
 }
 

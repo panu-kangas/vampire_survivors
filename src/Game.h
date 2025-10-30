@@ -8,6 +8,7 @@
 #include <memory>
 #include "Constants.h"
 #include "InputHandler.h"
+#include "Enums.hpp"
 
 class Player;
 class Projectile;
@@ -20,13 +21,6 @@ class StartScreen;
 class EndScreen;
 
 namespace sf { class Clock; }
-
-enum eFloorColor
-{
-	NORMAL,
-	RED,
-	GREEN
-};
 
 class Game : public sf::Drawable
 {

@@ -8,10 +8,10 @@ class HolyPulse : public Weapon
 	public:
 
 	HolyPulse() = delete;
-	HolyPulse(std::string name, std::string upgradeName);
+	HolyPulse(std::string name, std::string upgradeName, Player* playerPtr);
 	~HolyPulse() = default;
 
-	void update(float deltaTime, Player* playerPtr) override;
+	void update(float deltaTime) override;
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 	void resetUpgrades() override;
 	bool checkCollision(Rectangle* obj) override;

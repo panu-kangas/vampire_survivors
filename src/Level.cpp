@@ -89,11 +89,15 @@ void Level::update(float deltaTime)
 		return ;
 
 	updateInfoBoxes(deltaTime);
+	Player* player = m_pGame->getPlayer();
 
 	if (m_isLevelPassed && !m_isReady)
+	{
+		if (!player->getIsVisible())
+			player->setIsVisible(true);
 		return ;
+	}
 
-	Player* player = m_pGame->getPlayer();
     player->update(deltaTime);
 	player->move(m_pGame->getInputData(), deltaTime);
 	m_vampireHandler->vampireSpawner(deltaTime, m_vampireData);
@@ -116,7 +120,8 @@ void Level::updateInfoBoxes(float deltaTime)
 	}
 	else
 	{
-		m_scoreInfo.setText({"Fight the vampires!"});
+		std::string str = "Level " + std::to_string(m_levelId) + ": Fight the vampires!";
+		m_scoreInfo.setText({str});
 	}
 	auto scoreInfoSize = m_scoreInfo.getSize();
 	float infoX = ScreenWidth / 2 - scoreInfoSize.x / 2;

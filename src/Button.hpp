@@ -2,15 +2,9 @@
 
 #include <SFML/Graphics.hpp>
 #include "InputHandler.h"
+#include "Enums.hpp"
 
 class Game;
-
-enum eButtonType
-{
-	PLUS,
-	MINUS,
-	CONTINUE
-};
 
 class Button
 {

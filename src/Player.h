@@ -12,20 +12,6 @@
 struct InputData;
 class Game;
 
-enum eDirection
-{
-    LEFT,
-    RIGHT,
-    UP,
-    DOWN
-};
-
-enum eAttackType
-{
-	LANCE,
-	HOLY_PULSE
-};
-
 class Player : public Rectangle
 {
 public:
@@ -40,24 +26,27 @@ public:
 
     bool isDead() const { return m_isDead; }
     void setIsDead(bool isDead) { m_isDead = isDead; }
+	void setIsVisible(bool state) { m_isVisible = state; };
 	bool takeDamage();
 	void handleBlinking();
 	void upgradeSpeed(float newSpeed, int newUpgradeLevel) { m_speed = newSpeed; m_upgradeLevel = newUpgradeLevel; }; 
 
     std::vector<Weapon*>& getWeaponVec() { return m_weaponVec; };
 	eDirection getFacingDirection() { return m_facingDirection; };
+	eDirection getDirection() { return m_direction; };
 	float getSpeed() { return m_speed; };
 	float getUpgradeScale() { return m_upgradeScale; };
 	int	getHealth() { return m_health; };
 	int getUpgradeLevel() { return m_upgradeLevel; };
 	int& getSkillPoints() { return m_skillPoints; };
+	bool getIsVisible() { return m_isVisible; };
 
 private:
 
     bool    m_isDead = false;
 	bool	m_isVisible = true;
 	float 	m_speed = PlayerSpeed;
-	float 	m_upgradeScale = 10.f;
+	float 	m_upgradeScale = 20.f;
 	int 	m_upgradeLevel = 1;
 	int		m_health = PlayerStartHealth;
 	int 	m_skillPoints = PlayerStartSkillPoints;

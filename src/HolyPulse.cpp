@@ -4,12 +4,12 @@
 
 #include <iostream>
 
-HolyPulse::HolyPulse(std::string name, std::string upgradeName) : Weapon(name, upgradeName)
+HolyPulse::HolyPulse(std::string name, std::string upgradeName, Player* playerPtr) : Weapon(name, upgradeName, playerPtr)
 {
 	m_name = name;
-	m_upgradeScale = 10.f;
+	m_upgradeScale = 15.f;
 	m_pUpgradeValue = &m_radius;
-	m_cooldownTime = HolyPulseCooldownTime;
+	m_cooldownLimit = HolyPulseCooldownTime;
 
 	setOrigin(sf::Vector2f(0.0f, 0.0f));
 
@@ -22,9 +22,9 @@ HolyPulse::HolyPulse(std::string name, std::string upgradeName) : Weapon(name, u
 	m_cooldownClock.restart();
 }
 
-void HolyPulse::update(float deltaTime, Player* playerPtr)
+void HolyPulse::update(float deltaTime)
 {
-	sf::Vector2f newPos{playerPtr->getCenter().x, playerPtr->getCenter().y};
+	sf::Vector2f newPos{m_playerPtr->getCenter().x, m_playerPtr->getCenter().y};
 
 	setPosition(newPos);
 	m_circle.setPosition(newPos);
@@ -62,7 +62,7 @@ void HolyPulse::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 void HolyPulse::setActive(bool isActive)
 {
-	if (isActive && m_cooldownClock.getElapsedTime().asSeconds() < m_cooldownTime)
+	if (isActive && m_cooldownClock.getElapsedTime().asSeconds() < m_cooldownLimit)
 		return ;
 
 	m_isActive = isActive;

@@ -15,9 +15,9 @@ const int	PlayerStartSkillPoints = 1;
 
 const float VampireHeight = 32.0f;
 const float VampireWidth = 32.0f;
-const float VampireSpeed = 120.0f;
+const float VampireSpeed = 110.0f;
 
-const float RedVampireSpeed = 310.0f;
+const float RedVampireSpeed = 290.0f;
 const float RedVampireDirChangeCooldown = 4.0f;
 const float RedVampireStopCooldown = 2.0f;
 const float RedVampireBlinkInterval = 0.1f;
@@ -35,14 +35,14 @@ const float WeaponActiveTime = 0.25f;
 const float WeaponAttackCooldown = 0.4f;
 
 const float HolyPulseAnimationTime = 0.3f;
-const float HolyPulseRadius = 80.f;
-const float HolyPulseCooldownTime = 1.0f;
+const float HolyPulseRadius = 90.f;
+const float HolyPulseCooldownTime = 1.5f;
 
 const float EnterCooldown = 0.1f;
 
 const float ButtonPressCooldown = 0.05f;
 const float ButtonBlinkFXCooldown = 0.05f;
 
-const int 	maxUpgradeLevel = 6;
+const int 	maxUpgradeLevel = 4;
 
 const sf::Vector2f weaponAreaSize{150, 60};

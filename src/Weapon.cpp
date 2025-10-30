@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-Weapon::Weapon(std::string name, std::string upgradeName) : Rectangle(sf::Vector2f(0, 0))
+Weapon::Weapon(std::string name, std::string upgradeName, Player* playerPtr) : Rectangle(sf::Vector2f(0, 0))
 {
     setPosition(sf::Vector2f(ScreenWidth * 0.5f, ScreenHeight * 0.5f));
     setOrigin(sf::Vector2f(0.0f, 0.0f));
@@ -11,6 +11,7 @@ Weapon::Weapon(std::string name, std::string upgradeName) : Rectangle(sf::Vector
 
 	m_name = name;
 	m_upgradeName = upgradeName;
+	m_playerPtr = playerPtr;
 	m_pUpgradeValue = &m_weaponLength;
 	m_cooldownClock.restart();
 }
@@ -23,7 +24,13 @@ void Weapon::setActive(bool isActive)
     m_isActive = isActive;
     if (isActive)
     {
-        setSize(sf::Vector2f(m_weaponLength, WeaponHeight));
+		eDirection playerDir = m_playerPtr->getDirection();
+		if (playerDir == LEFT || playerDir == RIGHT)
+        	setSize(sf::Vector2f(m_weaponLength, WeaponHeight));
+		else
+			setSize(sf::Vector2f(WeaponHeight, m_weaponLength));
+
+		m_weaponDir = playerDir;
         m_timer = WeaponActiveTime;
 		m_cooldownClock.restart();
     }
@@ -47,11 +54,21 @@ void Weapon::resetUpgrades()
 }
 
 
-void Weapon::update(float deltaTime, Player* playerPtr)
+void Weapon::update(float deltaTime)
 {
-	setPosition(sf::Vector2f(
-		playerPtr->getCenter().x - (playerPtr->getFacingDirection() == LEFT ? getSize().x : 0.0f),
-		playerPtr->getCenter().y - getSize().y / 2.0f));
+	if (m_weaponDir == LEFT || m_weaponDir == RIGHT)
+	{
+		setPosition(sf::Vector2f(
+			m_playerPtr->getCenter().x - (m_weaponDir == LEFT ? getSize().x : 0.0f),
+			m_playerPtr->getCenter().y - getSize().y / 2.0f));
+	}
+	else
+	{
+		setPosition(sf::Vector2f(
+			m_playerPtr->getCenter().x - getSize().x / 2,
+			m_playerPtr->getCenter().y - (m_weaponDir == UP ? getSize().y : 0.0f)));
+	}
+
 
     if (m_isActive)
     {
