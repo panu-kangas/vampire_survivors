@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22.1)
-project(Survive LANGUAGES CXX)
+project(Vampires LANGUAGES CXX)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
@@ -20,20 +20,20 @@ file(GLOB_RECURSE SOURCES
     src/*.h
 )
 
-add_executable(survive ${SOURCES})
-target_link_libraries(survive PRIVATE sfml-graphics sfml-audio sfml-network)
-target_compile_features(survive PRIVATE cxx_std_17)
+add_executable(vampires ${SOURCES})
+target_link_libraries(vampires PRIVATE sfml-graphics sfml-audio sfml-network)
+target_compile_features(vampires PRIVATE cxx_std_17)
 
 add_custom_command(
-    TARGET survive
+    TARGET vampires
     COMMENT "Copy assets directory"
-    POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/assets $<TARGET_FILE_DIR:survive>/assets
+    POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/assets $<TARGET_FILE_DIR:vampires>/assets
     VERBATIM)
 
 if(WIN32)
     add_custom_command(
-        TARGET survive
+        TARGET vampires
         COMMENT "Copy OpenAL DLL"
-        PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${SFML_SOURCE_DIR}/extlibs/bin/$<IF:$<EQUAL:${CMAKE_SIZEOF_VOID_P},8>,x64,x86>/openal32.dll $<TARGET_FILE_DIR:survive>
+        PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${SFML_SOURCE_DIR}/extlibs/bin/$<IF:$<EQUAL:${CMAKE_SIZEOF_VOID_P},8>,x64,x86>/openal32.dll $<TARGET_FILE_DIR:vampires>
         VERBATIM)
 endif()
