@@ -7,7 +7,7 @@ The game was developed over **40 working hours**, adding new mechanics, enemies,
 
 # Gameplay video (click the image to view in YouTube)
 
-[![Watch Vampires! gameplay](https://img.youtube.com/vi/y2wVuEMDLFQ/maxresdefault.jpg)](https://youtu.be/y2wVuEMDLFQ)
+[![Watch the Vampires! demo](https://img.youtube.com/vi/f27j3-jZVr8/maxresdefault.jpg)](https://youtu.be/f27j3-jZVr8)
 
 # Installation
 
@@ -65,3 +65,4 @@ V - Use Holy Pulse attack
 # Credits
 
 Coming soon! 
+
