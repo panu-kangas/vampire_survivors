@@ -32,11 +32,11 @@ class LevelHandler
 
 	std::array<LevelData, 7> m_levelArr = {{
 		{1, {10, 0, 0, 0, 1.2f}},
-		{2, {16, 0, 0, 0, 1.0f}},
-		{3, {14, 6, 0, 0, 1.0f}},
-		{4, {18, 8, 4, 0, 1.0f}},
-		{5, {22, 11, 8, 0, 0.9f}},
-		{6, {26, 15, 12, 0, 0.9f}},
+		{2, {14, 0, 0, 0, 1.0f}},
+		{3, {12, 5, 0, 0, 1.0f}},
+		{4, {0, 15, 0, 0, 0.9f}},
+		{5, {14, 8, 5, 0, 1.0f}},
+		{6, {20, 11, 8, 0, 0.9f}}
 	}};
 	std::unique_ptr<Level> m_curLevelPtr;
 	std::unique_ptr<UpgradeShop> m_pUpgradeShop;

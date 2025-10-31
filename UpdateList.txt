@@ -1,6 +1,5 @@
 Working hours spent:
-35 h
-
+39 h
 
 BUG FIXES
 
@@ -11,14 +10,12 @@ BUG FIXES
 - Player orientation is updated based on moving direction
 - Added fixed FPS max to avoid overheating the computer
 
-
 IMPROVEMENTS
 
 - Attack cooldown for player
 - New utility function for drawing text
 - VampireHandler class added --> Takes care of all Vampire related like spawning, update and destruction.
 - Updated EndScreen so that it shows the player score and is visually better
-
 
 ADDITIONS
 
